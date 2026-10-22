@@ -3,27 +3,27 @@
  */
 export const images = {
   hero: {
-    src: "/images/hero-student.svg",
-    alt: "Illustration of a student preparing for an international study journey",
+    src: "/images/hero-students.jpg",
+    alt: "A diverse group of students smiling together outdoors",
   },
   consultation: {
-    src: "/images/consultation.svg",
-    alt: "Illustration of a student discussing study plans with an adviser",
+    src: "/images/study-group.jpg",
+    alt: "Students collaborating around laptops at a table",
   },
   fundsGuidance: {
     src: "/images/documents.svg",
     alt: "Illustration of organised application and financial documents",
   },
   about: {
-    src: "/images/about-team.svg",
-    alt: "Illustration representing a study-abroad advisory conversation",
+    src: "/images/advising-session.jpg",
+    alt: "An instructor speaking to students in a classroom",
   },
   documents: {
-    src: "/images/translation.svg",
-    alt: "Illustration of an academic certificate prepared for translation",
+    src: "/images/student-study.jpg",
+    alt: "Textbooks and stationery arranged on a study desk",
   },
   graduation: {
-    src: "/images/graduation.svg",
-    alt: "Illustration of a student celebrating graduation",
+    src: "/images/graduation.jpg",
+    alt: "Graduates celebrating outdoors and tossing their caps",
   },
 };

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#252B83"/><stop offset="1" stop-color="#10133F"/></linearGradient></defs>
-<rect width="1200" height="900" fill="url(#g)"/>
-<path d="M-20 720.0 C 360.0 630.0, 600.0 270.0, 1220 135.0" fill="none" stroke="#FDBE18" stroke-width="3" stroke-dasharray="6 14" opacity=".7"/><circle cx="983.9999999999999" cy="180.0" r="144.0" fill="#F7941D" opacity=".85"/><circle cx="180.0" cy="270.0" r="63.00000000000001" fill="#FDBE18" opacity=".8"/><g opacity=".95"><circle cx="600.0" cy="324.0" r="156.0" fill="#6B3E26"/><path d="M264.0 702.0 C 288.0 495.00000000000006, 912.0 495.00000000000006, 936.0 702.0 Z" fill="#F7F8FC"/><rect x="744.0" y="468.0" width="168.00000000000003" height="180.0" rx="10" fill="#FDBE18"/></g>
-<g font-family="system-ui,Segoe UI,Arial,sans-serif">
-<rect x="72.0" y="750" width="1056.0" height="110" rx="18" fill="#ffffff" fill-opacity=".92"/>
-<text x="96.0" y="796" font-size="26" font-weight="700" fill="#252B83">Photo placeholder</text>
-<text x="96.0" y="832" font-size="20" fill="#4A5468">African graduate at ceremony</text>
-</g></svg>

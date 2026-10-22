@@ -22,6 +22,7 @@ Requires Node.js 20.9 or newer.
 | Services (home cards + Services page)                                            | `data/services.ts`                          |
 | Destinations (add a country by copying one object)                               | `data/destinations.ts`                      |
 | FAQs                                                                             | `data/faqs.ts`                              |
+| Testimonials (only approved, complete entries render)                            | `data/testimonials.ts`                      |
 | Form fields                                                                      | `data/forms.ts`                             |
 | Image paths and alt text                                                         | `data/images.ts` + files in `public/images` |
 | Colours and fonts                                                                | `tailwind.config.ts`, `app/layout.tsx`      |
@@ -42,10 +43,12 @@ appointment page) and it replaces the request form on `/book-consultation`.
 
 ## Images
 
-`public/images` contains branded SVG placeholders. Replace with real photos
-(JPG/WebP, ~1600px wide, <300 KB) showing African students and families, and
-update paths in `data/images.ts` / `data/destinations.ts`.
-Also regenerate `public/images/og-image.png` (1200×630) if the brand name changes.
+`public/images` contains SVG illustrations and locally optimized Unsplash photos.
+The photos are local optimized assets; source IDs are `photo-1517486808906-6ca8b3f04846`,
+`photo-1522202176988-66273c2fd55f`, `photo-1524178232363-1fb2b075b655`,
+`photo-1516979187457-637abb4f9353`, and `photo-1541339907198-e08756dedf3f`.
+Update paths and accurate alt text in `data/images.ts` when replacing them.
+Regenerate `public/images/og-image.png` (1200×630) if the brand name changes.
 
 ## Deploy
 

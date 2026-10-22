@@ -4,6 +4,7 @@ import { Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { CountryCard } from "@/components/CountryCard";
+import { TestimonialCard } from "@/components/TestimonialCard";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { CTASection } from "@/components/CTASection";
 import { ButtonLink } from "@/components/Button";
@@ -14,6 +15,7 @@ import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
 import { homeServices } from "@/data/services";
 import { destinations } from "@/data/destinations";
+import { publishedTestimonials } from "@/data/testimonials";
 import { homeFaqPreview } from "@/data/faqs";
 import { images } from "@/data/images";
 import { fundsIntegrityNotice, siteConfig } from "@/data/site";
@@ -160,13 +162,26 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Success stories */}
-      <Section tone="canvas" id="stories">
+      <Section tone="canvas" id="approach">
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
           <SectionHeading title="Honest guidance, without outcome promises" intro="Admission and visa decisions belong to universities and immigration authorities. We focus on helping you understand requirements, organise genuine documents and prepare a complete application." />
           <ButtonLink href="/about" variant="outline" className="shrink-0">How we work</ButtonLink>
         </div>
       </Section>
+
+      {publishedTestimonials.length > 0 && (
+        <Section tone="white" id="stories">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeading title="Client experiences" intro="Feedback shared with permission." />
+            <ButtonLink href="/success-stories" variant="outline" className="shrink-0">More client stories</ButtonLink>
+          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {publishedTestimonials.slice(0, 3).map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* FAQ preview */}
       <Section tone="white" id="faq">

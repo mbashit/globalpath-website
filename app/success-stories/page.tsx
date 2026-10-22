@@ -1,7 +1,10 @@
 import { PageHero } from "@/components/PageHero";
-import { Section, SectionHeading } from "@/components/Section";
+import { Section } from "@/components/Section";
 import { CTASection } from "@/components/CTASection";
+import { TestimonialCard } from "@/components/TestimonialCard";
+import { publishedTestimonials } from "@/data/testimonials";
 import { buildMetadata } from "@/lib/seo";
+import { notFound } from "next/navigation";
 
 export const metadata = buildMetadata({
   title: "Success Stories",
@@ -11,6 +14,8 @@ export const metadata = buildMetadata({
 });
 
 export default function SuccessStoriesPage() {
+  if (publishedTestimonials.length === 0) notFound();
+
   return (
     <>
       <PageHero
@@ -20,8 +25,10 @@ export default function SuccessStoriesPage() {
       />
 
       <Section tone="canvas">
-        <div className="mx-auto max-w-3xl text-center">
-          <SectionHeading title="No client stories are published yet" intro="We won’t invent outcomes or use private messages as testimonials. When clients choose to share their experience, we verify the details, remove sensitive information and get written consent before publishing." />
+        <div className="grid gap-5 md:grid-cols-2">
+          {publishedTestimonials.map((testimonial) => (
+            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+          ))}
         </div>
       </Section>
 

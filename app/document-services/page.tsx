@@ -6,7 +6,9 @@ import { ButtonLink } from "@/components/Button";
 import { ContactForm } from "@/components/ContactForm";
 import { CTASection } from "@/components/CTASection";
 import { Icon, type IconName } from "@/components/Icon";
+import { SmartImage } from "@/components/SmartImage";
 import { documentFields } from "@/data/forms";
+import { images } from "@/data/images";
 import { buildMetadata } from "@/lib/seo";
 import { whatsappMessageForPath } from "@/lib/whatsapp";
 
@@ -32,6 +34,11 @@ export default function DocumentServicesPage() {
         title="Translation & document preparation"
         intro="Discuss translation and document-preparation requirements for your application. The receiving institution decides which formats it accepts."
         crumbs={[{ label: "Services", href: "/services" }, { label: "Document Services" }]}
+        aside={
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-white/15">
+            <SmartImage src={images.documents.src} alt={images.documents.alt} fill priority sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" />
+          </div>
+        }
       >
         <ButtonLink href="#quote">Get Document Support</ButtonLink>
       </PageHero>
