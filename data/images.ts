@@ -11,8 +11,8 @@ export const images = {
     alt: "Students collaborating around laptops at a table",
   },
   fundsGuidance: {
-    src: "/images/documents.svg",
-    alt: "Illustration of organised application and financial documents",
+    src: "/images/funds-review.jpg",
+    alt: "A person reviewing and signing paperwork at a desk",
   },
   about: {
     src: "/images/advising-session.jpg",

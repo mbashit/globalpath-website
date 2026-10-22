@@ -4,7 +4,7 @@ import { Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { CountryCard } from "@/components/CountryCard";
-import { TestimonialCard } from "@/components/TestimonialCard";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { CTASection } from "@/components/CTASection";
 import { ButtonLink } from "@/components/Button";
@@ -15,7 +15,7 @@ import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
 import { homeServices } from "@/data/services";
 import { destinations } from "@/data/destinations";
-import { publishedTestimonials } from "@/data/testimonials";
+import { publishedTestimonials, testimonials } from "@/data/testimonials";
 import { homeFaqPreview } from "@/data/faqs";
 import { images } from "@/data/images";
 import { fundsIntegrityNotice, siteConfig } from "@/data/site";
@@ -169,19 +169,17 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {publishedTestimonials.length > 0 && (
-        <Section tone="white" id="stories">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <SectionHeading title="Client experiences" intro="Feedback shared with permission." />
-            <ButtonLink href="/success-stories" variant="outline" className="shrink-0">More client stories</ButtonLink>
-          </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {publishedTestimonials.slice(0, 3).map((testimonial) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
-          </div>
-        </Section>
-      )}
+      <Section tone="canvas" id="stories">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <SectionHeading title="Student and family stories" intro="Experiences from the study-abroad journey." />
+          {publishedTestimonials.length > 0 && (
+            <ButtonLink href="/success-stories" variant="outline" className="shrink-0">View all stories</ButtonLink>
+          )}
+        </div>
+        <div className="mt-8">
+          <TestimonialCarousel testimonials={testimonials} />
+        </div>
+      </Section>
 
       {/* FAQ preview */}
       <Section tone="white" id="faq">

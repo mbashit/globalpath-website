@@ -5,7 +5,9 @@ import { Notice } from "@/components/Notice";
 import { ButtonLink } from "@/components/Button";
 import { ContactForm } from "@/components/ContactForm";
 import { CTASection } from "@/components/CTASection";
+import { SmartImage } from "@/components/SmartImage";
 import { financialReviewFields } from "@/data/forms";
+import { images } from "@/data/images";
 import { decisionDisclaimer, fundsIntegrityNotice, requirementsChangeNotice } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -156,6 +158,9 @@ export default function ProofOfFundsPage() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
           <div>
             <SectionHeading title="Request a financial documentation review" intro="Tell us about your destination and funding. We will explain the requirements and what your documents need to show." />
+            <div className="relative mt-8 aspect-[4/3] overflow-hidden rounded-3xl bg-navy-soft">
+              <SmartImage src={images.fundsGuidance.src} alt={images.fundsGuidance.alt} fill sizes="(max-width: 1024px) 100vw, 35vw" className="object-cover" />
+            </div>
             <Notice tone="integrity" className="mt-8">
               Please do not send account numbers or statements through this form. We will agree a secure way to review documents with you.
             </Notice>
