@@ -4,7 +4,7 @@ import { Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { CountryCard } from "@/components/CountryCard";
-import { TestimonialCarousel } from "@/components/TestimonialCarousel";
+import { TestimonialMarquee } from "@/components/TestimonialMarquee";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { CTASection } from "@/components/CTASection";
 import { ButtonLink } from "@/components/Button";
@@ -169,17 +169,18 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <Section tone="canvas" id="stories">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionHeading title="Student and family stories" intro="Experiences from the study-abroad journey." />
+      {/* Testimonials – the marquee runs edge to edge, outside the container */}
+      <section id="stories" className="scroll-mt-24 overflow-hidden bg-canvas py-16 md:py-24">
+        <div className="container flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <SectionHeading title="Student and family stories" intro="Students and parents from across Africa share their journeys to Germany, Canada, the UK and the USA." />
           {publishedTestimonials.length > 0 && (
             <ButtonLink href="/success-stories" variant="outline" className="shrink-0">View all stories</ButtonLink>
           )}
         </div>
-        <div className="mt-8">
-          <TestimonialCarousel testimonials={testimonials} />
+        <div className="mt-10">
+          <TestimonialMarquee testimonials={testimonials} />
         </div>
-      </Section>
+      </section>
 
       {/* FAQ preview */}
       <Section tone="white" id="faq">

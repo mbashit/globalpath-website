@@ -25,9 +25,12 @@ const config: Config = {
       keyframes: {
         rise: { "0%": { opacity: "0", transform: "translateY(14px)" }, "100%": { opacity: "1", transform: "none" } },
         dash: { to: { strokeDashoffset: "0" } },
+        // The marquee track holds three copies of its items; moving one copy's width loops seamlessly.
+        marquee: { to: { transform: "translateX(-33.3333%)" } },
       },
       animation: {
         rise: "rise .7s cubic-bezier(.2,.7,.2,1) both",
+        marquee: "marquee 45s linear infinite",
       },
     },
   },
