@@ -56,7 +56,7 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
           </div>
         }
       >
-        <ButtonLink href={`/book-consultation?destination=${encodeURIComponent(d.name)}`}>Book a Consultation</ButtonLink>
+        <ButtonLink href={`/book-consultation?destination=${encodeURIComponent(d.name)}`}>Request a Consultation</ButtonLink>
         <ButtonLink href={whatsappLink(d.whatsappMessage)} variant="whatsapp" external>
           <WhatsAppGlyph /> Ask about {d.shortName}
         </ButtonLink>

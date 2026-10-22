@@ -47,6 +47,9 @@ appointment page) and it replaces the request form on `/book-consultation`.
 The photos are local optimized assets; source IDs are `photo-1517486808906-6ca8b3f04846`,
 `photo-1522202176988-66273c2fd55f`, `photo-1524178232363-1fb2b075b655`,
 `photo-1516979187457-637abb4f9353`, and `photo-1541339907198-e08756dedf3f`.
+Destination photo IDs are `photo-1560969184-10fe8719e047`,
+`photo-1517935706615-2717063c2225`, `photo-1513635269975-59663e0ac1ad`,
+`photo-1562774053-701939374585`, and `photo-1513326738677-b964603b136d`.
 Update paths and accurate alt text in `data/images.ts` when replacing them.
 Regenerate `public/images/og-image.png` (1200×630) if the brand name changes.
 
