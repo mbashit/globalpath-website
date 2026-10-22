@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    overflow-x: hidden;
+  }
+  /* Room for the sticky mobile action bar */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: 76px;
+    }
+  }
+  :focus-visible {
+    outline: 3px solid #f7941d;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: #fdbe18;
+    color: #172033;
+  }
+}
+
+/* Long-form legal / guide text */
+@layer components {
+  .prose-gp h2 {
+    @apply mt-12 scroll-mt-24 font-display text-2xl font-bold text-ink md:text-[1.75rem];
+  }
+  .prose-gp h3 {
+    @apply mt-8 font-display text-xl font-semibold text-ink;
+  }
+  .prose-gp p {
+    @apply mt-4 leading-[1.75] text-ink-muted;
+  }
+  .prose-gp ul {
+    @apply mt-4 list-disc space-y-2 pl-6 text-ink-muted marker:text-brandorange;
+  }
+  .prose-gp a {
+    @apply font-semibold text-navy underline underline-offset-2;
+  }
+  .prose-gp strong {
+    @apply text-ink;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
