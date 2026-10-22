@@ -34,7 +34,7 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("max-w-2xl", align === "center" && "mx-auto text-center")}>
-      <Tag className={cn("font-display text-[1.9rem] font-bold leading-[1.1] tracking-tight md:text-[2.6rem]", light ? "text-white" : "text-ink")}>
+      <Tag className={cn("font-display text-[1.9rem] font-bold leading-[1.1] md:text-[2.6rem]", light ? "text-white" : "text-ink")}>
         {title}
       </Tag>
       {intro && <p className={cn("mt-4 text-lg", light ? "text-white/75" : "text-ink-muted")}>{intro}</p>}

@@ -3,57 +3,49 @@
  *  CENTRAL SITE CONFIGURATION
  *  Change the company name, contacts and links HERE ONLY.
  *  Every page and component reads from this file.
- *  Items marked  // REPLACE  or  // CONFIRM  must be checked
- *  with the business owner before launch.
+ *  Business identity and contact details must be verified before launch.
  * ============================================================
  */
 
-const shortName = "GlobalPath"; // REPLACE – used in the logo and WhatsApp messages
+const shortName = "GlobalPath";
 
 export const siteConfig = {
   // ---- Brand ------------------------------------------------
-  name: "GlobalPath Education & Mobility", // REPLACE with the registered business name
+  name: "GlobalPath Education & Mobility",
   shortName,
-  logoSubline: "Education & Mobility", // REPLACE – second line of the text logo
+  logoSubline: "Education & Mobility",
   tagline: "Your path to study, travel and opportunity abroad.",
   description:
     "Professional support for international education, documentation, visa preparation and relocation for students and families across Africa.",
 
   // ---- Domain (used for SEO, sitemap, OpenGraph) -------------
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.your-domain.com", // REPLACE
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalpath-client-review.netlify.app",
+  allowIndexing: process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true",
 
   // ---- Contact ------------------------------------------------
-  // Taken from the current flyer. CONFIRM the number is active on WhatsApp.
+  // Supplied contact details; verify they are current before production launch.
   phoneDisplay: "+7 996 450 8056",
   phoneHref: "+79964508056",
   // WhatsApp number: country code + number, digits only, no "+" or spaces.
   whatsappNumber: "79964508056",
 
-  // Read from the flyer as "SAMAAGHADIKE@YAHOO.COM".
-  // CONFIRM spelling with the owner. Strongly recommended: switch to a
-  // domain email (e.g. info@your-domain.com) – it looks far more trustworthy.
+  // Supplied contact address; verify spelling and access before launch.
   email: "samaaghadike@yahoo.com",
 
-  // Address from the flyer: "Чайковского 5" (city and country not shown).
-  // The address is ONLY displayed on the site when `confirmed` is true.
+  // Only display a complete, owner-verified office address.
   address: {
-    confirmed: false, // CONFIRM – set to true once the full address is verified
-    street: "Чайковского 5", // CONFIRM – add building/office number
-    city: "", // REPLACE – city of the office
-    country: "", // REPLACE
-    mapUrl: "", // OPTIONAL – Google Maps link to the office
+    confirmed: false,
+    street: "",
+    city: "",
+    country: "",
+    mapUrl: "",
   },
 
-  officeHours: [
-    // REPLACE with real hours
-    { days: "Monday – Friday", hours: "09:00 – 18:00" },
-    { days: "Saturday", hours: "10:00 – 15:00" },
-    { days: "Sunday", hours: "WhatsApp messages only" },
-  ],
-  timeZoneNote: "", // REPLACE – e.g. "Times shown in West Africa Time (WAT)". Hidden when empty.
+  officeHours: [] as { days: string; hours: string }[],
+  timeZoneNote: "",
 
   // ---- Social media -------------------------------------------
-  // Leave a value empty ("") to hide that icon. REPLACE with real profile URLs.
+  // Empty values hide social icons until verified profile URLs are supplied.
   social: {
     instagram: "",
     facebook: "",
@@ -68,9 +60,6 @@ export const siteConfig = {
   // on /book-consultation. Leave empty to use the built-in request form only.
   bookingEmbedUrl: "", // e.g. "https://calendly.com/your-account/consultation"
 
-  // ---- Legal ----------------------------------------------------
-  legalEntity: "[REGISTERED COMPANY NAME]", // REPLACE
-  lastLegalUpdate: "[DATE]", // REPLACE with the date the legal pages were approved
 };
 
 export type SiteConfig = typeof siteConfig;

@@ -97,20 +97,10 @@ export const consultationFields: Field[] = [
   fullName,
   email,
   whatsapp,
-  currentCountry,
-  { ...destination, label: "Destination" },
-  { name: "service", label: "Consultation type", type: "select", required: true, options: consultationTypes, half: true },
-  { name: "preferredDate", label: "Preferred date", type: "date", required: true, half: true },
-  {
-    name: "preferredTime",
-    label: "Preferred time",
-    type: "select",
-    required: true,
-    half: true,
-    options: opt(["Morning (09:00 – 12:00)", "Afternoon (12:00 – 15:00)", "Late afternoon (15:00 – 18:00)"]),
-    hint: "We will confirm the exact time with you",
-  },
-  message,
+  { ...destination, label: "Destination", required: false },
+  { name: "service", label: "What would you like help with?", type: "select", required: true, options: consultationTypes, half: true },
+  { name: "preferredDate", label: "Preferred date (optional)", type: "date", half: true },
+  { ...message, placeholder: "Anything we should know? Include your timezone if you have a preferred date." },
 ];
 
 export const financialReviewFields: Field[] = [

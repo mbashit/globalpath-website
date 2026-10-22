@@ -16,7 +16,7 @@ export function whatsappMessageForPath(pathname: string | null): string {
     "/proof-of-funds": `Hello ${n}, I would like guidance on the financial documents needed for my application.`,
     "/visa-support": `Hello ${n}, I would like help preparing my student visa documents.`,
     "/document-services": `Hello ${n}, I would like a quote for translating and notarizing my documents.`,
-    "/book-consultation": `Hello ${n}, I would like to book a consultation.`,
+    "/book-consultation": `Hello ${n}, I would like to request a consultation.`,
     "/destinations": `Hello ${n}, I would like help choosing a study destination.`,
   };
   return map[pathname] ?? siteConfig.whatsappDefaultMessage;

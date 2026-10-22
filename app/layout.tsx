@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/og-image.png", width: 1200, height: 630, alt: siteConfig.name }],
   },
   twitter: { card: "summary_large_image" },
-  robots: { index: true, follow: true },
+  robots: { index: siteConfig.allowIndexing, follow: siteConfig.allowIndexing },
 };
 
 export const viewport: Viewport = {
@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 // Organisation structured data. Only facts from data/site.ts – nothing invented.
 const orgJsonLd = {
   "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
+  "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
   description: siteConfig.description,
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <WhatsAppButton />
         <MobileCTABar />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }} />
       </body>
     </html>
   );

@@ -21,10 +21,10 @@ export function CTASection({
             <path d="M0 330 C 200 300, 380 380, 560 250" fill="none" stroke="rgba(255,255,255,.25)" strokeWidth="2" strokeDasharray="4 10" />
           </svg>
           <div className="relative max-w-xl">
-            <h2 className="font-display text-[2.1rem] font-bold leading-[1.05] tracking-tight md:text-[3.2rem]">{title}</h2>
+            <h2 className="font-display text-[2.1rem] font-bold leading-[1.05] md:text-[3.2rem]">{title}</h2>
             <p className="mt-5 text-lg text-white/80">{text}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/book-consultation">Book a Consultation</ButtonLink>
+              <ButtonLink href="/book-consultation">Request a Consultation</ButtonLink>
               <ButtonLink href={whatsappLink(whatsappMessage)} variant="whatsapp" external>
                 <WhatsAppGlyph /> Chat on WhatsApp
               </ButtonLink>

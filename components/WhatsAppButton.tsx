@@ -28,7 +28,7 @@ export function MobileCTABar() {
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 px-4 py-3 backdrop-blur md:hidden" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
       <div className="flex gap-3">
         <Link href="/book-consultation" className="flex min-h-[48px] flex-1 items-center justify-center rounded-full bg-brandorange font-semibold text-navy-ink">
-          Book a Consultation
+          Request a Consultation
         </Link>
         <Link href="/study-abroad#eligibility" className="flex min-h-[48px] flex-1 items-center justify-center rounded-full border-2 border-navy/15 font-semibold text-navy">
           Check eligibility

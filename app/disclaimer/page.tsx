@@ -17,13 +17,13 @@ export default function DisclaimerPage() {
       </p>
       <h2>Translations and certification</h2>
       <p>
-        Translations are carried out by qualified translators and notarization by licensed notaries. Acceptance of a translation is decided by the receiving institution; we confirm the required format with you before starting.
+        Translation, certification and notarization requirements vary by institution and destination. Confirm the provider, credentials, price and accepted format in writing before authorising any work.
       </p>
       <h2>Changing requirements</h2>
       <p>{requirementsChangeNotice}</p>
       <h2>Independence</h2>
       <p>
-        {siteConfig.name} is an independent consultancy. We are not an embassy, government agency or university, and we are not affiliated with any unless stated in writing. [UPDATE if you hold verified partnerships.]
+        {siteConfig.name} is not an embassy, government agency or university. Any business registration details or institutional affiliations should be verified directly and confirmed in a written agreement.
       </p>
     </LegalPage>
   );

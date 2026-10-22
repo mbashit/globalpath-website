@@ -34,7 +34,7 @@ export default function ContactPage() {
               </span>
               <span>
                 <span className="block font-display text-xl font-bold">Chat on WhatsApp</span>
-                <span className="block text-white/85">Usually the quickest reply</span>
+                <span className="block text-white/85">Message us with your question</span>
               </span>
             </a>
 
@@ -65,7 +65,7 @@ export default function ContactPage() {
                       )}
                     </p>
                   ) : (
-                    <p className="font-semibold text-ink">Visits by appointment. Contact us for the address.</p>
+                    <p className="font-semibold text-ink">Contact us to discuss meeting options.</p>
                   )}
                 </div>
               </li>

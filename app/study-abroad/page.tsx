@@ -13,7 +13,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Study Abroad With Confidence",
   description:
-    "A step-by-step guide to studying abroad from Nigeria and Africa: choosing a destination and programme, admission requirements, documents, offers, visas and pre-departure. Request a free eligibility review.",
+    "A step-by-step guide to studying abroad from Nigeria and Africa: choosing a destination and programme, admission requirements, documents, offers, visas and pre-departure. Request an eligibility review.",
   path: "/study-abroad",
   keywords: ["study abroad from Nigeria", "university admission assistance", "study abroad consultant Africa"],
 });
@@ -35,7 +35,7 @@ export default function StudyAbroadPage() {
     <>
       <PageHero
         title="Study abroad with confidence"
-        intro="A clear path from choosing a country to arriving on campus, with an adviser beside you at each stage."
+        intro="Understand the steps from choosing a country to preparing for travel, and request guidance for the stages you need help with."
         crumbs={[{ label: "Study Abroad" }]}
       >
         <ButtonLink href="#eligibility">Request an Eligibility Review</ButtonLink>

@@ -23,7 +23,7 @@ export function PageHero({
       <div className="container relative grid gap-10 py-14 md:py-20 lg:grid-cols-[1.4fr_1fr] lg:items-end">
         <div>
           <Breadcrumbs items={crumbs} light />
-          <h1 className="mt-6 max-w-3xl font-display text-[2.3rem] font-bold leading-[1.05] tracking-tight md:text-[3.4rem]">{title}</h1>
+          <h1 className="mt-6 max-w-3xl font-display text-[2.3rem] font-bold leading-[1.05] md:text-[3.4rem]">{title}</h1>
           {intro && <p className="mt-5 max-w-2xl text-lg text-white/80">{intro}</p>}
           {children && <div className="mt-8 flex flex-col gap-3 sm:flex-row">{children}</div>}
         </div>

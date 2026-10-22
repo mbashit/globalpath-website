@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { HomeHero } from "@/components/HomeHero";
-import { TrustStrip } from "@/components/TrustStrip";
 import { Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { CountryCard } from "@/components/CountryCard";
-import { JourneyTimeline } from "@/components/JourneyTimeline";
-import { TestimonialCard } from "@/components/TestimonialCard";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { CTASection } from "@/components/CTASection";
 import { ButtonLink } from "@/components/Button";
@@ -17,7 +14,6 @@ import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
 import { homeServices } from "@/data/services";
 import { destinations } from "@/data/destinations";
-import { testimonials } from "@/data/testimonials";
 import { homeFaqPreview } from "@/data/faqs";
 import { images } from "@/data/images";
 import { fundsIntegrityNotice, siteConfig } from "@/data/site";
@@ -34,9 +30,9 @@ export const metadata = buildMetadata({
 // Non-numeric trust points – no invented statistics.
 const trustPoints: { title: string; text: string; icon: IconName }[] = [
   { title: "Multiple study destinations", text: "Germany, Canada, the UK, the USA and Russia.", icon: "globe" },
-  { title: "End-to-end application support", text: "From first conversation to arrival.", icon: "route" },
+  { title: "Support at agreed stages", text: "Discuss the specific steps you need help with.", icon: "route" },
   { title: "Student & family assistance", text: "Guidance for applicants and their sponsors.", icon: "users" },
-  { title: "Online consultation available", text: "Speak with us by WhatsApp or video call.", icon: "video" },
+  { title: "Remote consultation requests", text: "Ask about a WhatsApp call or video consultation.", icon: "video" },
 ];
 
 const whyUs: { title: string; text: string; icon: IconName }[] = [
@@ -52,7 +48,6 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <TrustStrip />
 
       {/* Trust points */}
       <section className="bg-white py-14 md:py-16" aria-label="How we support you">
@@ -74,7 +69,7 @@ export default function HomePage() {
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             title="Everything you need for your international journey"
-            intro="Choose one service or let us support your whole application."
+            intro="Explore the services and agree on a clear scope before paid work begins."
           />
           <ButtonLink href="/services" variant="outline" className="shrink-0">View all services</ButtonLink>
         </div>
@@ -87,7 +82,7 @@ export default function HomePage() {
 
       {/* How it works */}
       <Section tone="white" id="how-it-works">
-        <SectionHeading title="How it works" intro="Five clear stages. You always know where your application stands and what comes next." />
+          <SectionHeading title="How it works" intro="A straightforward request-and-review process. Any appointment or service is confirmed with you before work begins." />
         <Reveal className="mt-12">
           <ProcessSteps />
         </Reveal>
@@ -100,7 +95,7 @@ export default function HomePage() {
       {/* Destinations */}
       <Section tone="canvas" id="destinations">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionHeading title="Where would you like to study?" intro="We currently support applications to five destinations, each with its own requirements and opportunities." />
+          <SectionHeading title="Where would you like to study?" intro="Explore our current destination guides. Requirements and available support vary by country and programme." />
           <ButtonLink href="/destinations" variant="outline" className="shrink-0">Explore Study Destinations</ButtonLink>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-6">
@@ -116,7 +111,7 @@ export default function HomePage() {
       <Section tone="white" id="why-us">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div>
-            <SectionHeading title="Why families choose to work with us" intro="Clear advice, honest expectations and support that continues after the application is submitted." />
+            <SectionHeading title="What our guidance focuses on" intro="Clear explanations, genuine documents, realistic options and agreed next steps." />
             <div className="relative mt-8 hidden aspect-[4/3] overflow-hidden rounded-3xl bg-navy-soft lg:block">
               <SmartImage src={images.consultation.src} alt={images.consultation.alt} fill sizes="40vw" className="object-cover" />
             </div>
@@ -165,25 +160,11 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Journey */}
-      <Section tone="navy" id="journey">
-        <SectionHeading light title="Your journey, step by step" intro="From your first conversation with us to your first day on campus." />
-        <Reveal className="mt-12">
-          <JourneyTimeline />
-        </Reveal>
-      </Section>
-
       {/* Success stories */}
       <Section tone="canvas" id="stories">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionHeading title="Success stories" intro="Real experiences from students and families we have supported will appear here." />
-          <ButtonLink href="/success-stories" variant="outline" className="shrink-0">Read success stories</ButtonLink>
-        </div>
-        {/* Replace entries in data/testimonials.ts with verified client testimonials. */}
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {testimonials.slice(0, 3).map((t, i) => (
-            <TestimonialCard key={i} t={t} />
-          ))}
+        <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+          <SectionHeading title="Honest guidance, without outcome promises" intro="Admission and visa decisions belong to universities and immigration authorities. We focus on helping you understand requirements, organise genuine documents and prepare a complete application." />
+          <ButtonLink href="/about" variant="outline" className="shrink-0">How we work</ButtonLink>
         </div>
       </Section>
 

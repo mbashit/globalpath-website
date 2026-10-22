@@ -34,7 +34,7 @@ export const faqs: FAQ[] = [
   {
     category: "Documents & funds",
     q: "Do you provide translation services?",
-    a: "Yes. We arrange translation of academic, personal and immigration documents through qualified translators and coordinate notarization where needed. We will confirm which type of certified translation your institution or embassy accepts.",
+    a: "Ask us about document-service availability for your language pair. Before authorising work, confirm the provider, credentials, price, timeline and format required by the receiving institution.",
   },
   {
     category: "Visas",
@@ -70,7 +70,7 @@ export const faqs: FAQ[] = [
   {
     category: "Working with us",
     q: "How much do your services cost?",
-    a: "Fees depend on the service and destination. We explain our fees in writing before you commit to anything. University, embassy and translation fees are paid separately to the relevant institution. [REPLACE with the owner's pricing approach]",
+    a: "Fees vary by service and destination. Ask for a written quote that explains the scope and any third-party charges before agreeing to paid work.",
   },
   {
     category: "Working with us",

@@ -62,8 +62,8 @@ export default function VisaSupportPage() {
         <div className="mt-12">
           <ProcessSteps
             steps={[
-              { title: "Requirements check", text: "We confirm the current official requirements for your visa type." },
-              { title: "Personal checklist", text: "You receive a checklist tailored to your situation." },
+              { title: "Requirements check", text: "Review the official requirements for your visa type and note the source and date checked." },
+              { title: "Personal checklist", text: "Discuss a checklist based on your circumstances and current official instructions." },
               { title: "Document review", text: "We review your documents and flag anything missing or unclear." },
               { title: "Appointment & interview", text: "We prepare you for biometrics and any interview." },
               { title: "After the decision", text: "We help you plan travel, or review a refusal letter with you." },

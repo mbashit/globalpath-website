@@ -22,16 +22,6 @@ const values: { title: string; text: string; icon: IconName }[] = [
   { title: "International perspective", text: "Understanding how requirements differ between countries.", icon: "globe" },
 ];
 
-/*
- * TEAM: replace these placeholders with real team members.
- * Only list people who actually work with the business, with their consent.
- */
-const team = [
-  { name: "Team member name", role: "Founder / Lead adviser", bio: "Short bio – REPLACE with real background and languages spoken." },
-  { name: "Team member name", role: "Admissions adviser", bio: "Short bio – REPLACE." },
-  { name: "Team member name", role: "Documentation coordinator", bio: "Short bio – REPLACE." },
-];
-
 export default function AboutPage() {
   return (
     <>
@@ -48,9 +38,8 @@ export default function AboutPage() {
             <p className="mt-5 font-display text-2xl font-medium leading-snug text-navy md:text-[1.9rem]">
               To give applicants clear, transparent and professional guidance throughout their international journey.
             </p>
-            {/* REPLACE: add the founder's real story – why the business started, who it serves. Do not add years, licences or partnerships unless they can be verified. */}
             <p className="mt-6 leading-relaxed text-ink-muted">
-              Applying abroad involves unfamiliar rules, many documents and important financial decisions. Students and parents deserve advice that is accurate, honest about what can and cannot be promised, and delivered by people who understand their situation.
+              Applying abroad involves unfamiliar requirements, multiple documents and significant financial decisions. We help students and families understand the steps, organise genuine documents and make informed choices without promising admission or visa outcomes.
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-navy-soft">
@@ -73,17 +62,14 @@ export default function AboutPage() {
       </Section>
 
       <Section tone="white">
-        <SectionHeading title="Our team" intro="The people who will guide your application." />
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((m, i) => (
-            <li key={i} className="rounded-2xl border-2 border-dashed border-navy/20 p-6">
-              <div className="grid aspect-square w-24 place-items-center rounded-2xl bg-navy-soft text-navy" aria-hidden="true">
-                <Icon name="users" className="h-8 w-8" />
-              </div>
-              <h3 className="mt-5 font-display text-lg font-semibold text-ink">{m.name}</h3>
-              <p className="text-sm font-semibold text-brandorange-dark">{m.role}</p>
-              <p className="mt-2 text-ink-muted">{m.bio}</p>
-            </li>
+        <SectionHeading title="What you can expect" intro="Clear next steps, careful document preparation and honest conversations about your options." />
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            "A conversation about your goals, qualifications and constraints",
+            "Guidance based on the requirements of your chosen destination",
+            "A written outline of the service scope and fees before paid work begins",
+          ].map((item) => (
+            <li key={item} className="rounded-xl border border-line bg-white p-5 text-ink-muted">{item}</li>
           ))}
         </ul>
       </Section>

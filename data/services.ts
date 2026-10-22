@@ -44,14 +44,14 @@ export const homeServices: ServiceSummary[] = [
     title: "Document Translation",
     icon: "languages",
     summary:
-      "Translation of diplomas, transcripts, certificates and police clearance documents, coordinated with qualified translators.",
+      "Ask about translation for diplomas, transcripts and supporting certificates. Confirm provider details and format before authorising work.",
     href: "/document-services",
   },
   {
     title: "Notarization Assistance",
     icon: "filecheck",
     summary:
-      "We coordinate notarization and explain certification steps such as apostille or legalisation where your destination requires them.",
+      "Ask whether notarization or certification coordination is available for your documents and destination.",
     href: "/document-services#notarization",
   },
   {
@@ -85,7 +85,7 @@ export const serviceCategories: ServiceCategory[] = [
     id: "study-abroad",
     title: "Study abroad",
     icon: "graduation",
-    intro: "Find a programme that fits your qualifications, budget and goals, then apply with a complete, well-prepared file.",
+    intro: "Compare programmes against your qualifications, budget and goals, then plan the application steps that fit your situation.",
     items: [
       "University selection",
       "Programme research",
@@ -101,7 +101,7 @@ export const serviceCategories: ServiceCategory[] = [
     id: "visa",
     title: "Visa application support",
     icon: "stamp",
-    intro: "We help you understand what the embassy asks for and organise your documents so your application is complete and consistent.",
+    intro: "Understand official checklist requirements and organise documents for a complete, consistent application.",
     items: [
       "Document checklist",
       "Application review",
@@ -135,14 +135,14 @@ export const serviceCategories: ServiceCategory[] = [
     intro:
       "Translation and document support for diplomas, certificates, academic transcripts, police clearance, birth and marriage certificates and other supporting documents.",
     items: ["Translation", "Notarization coordination", "Document certification guidance"],
-    note: "Translations are completed by qualified translators we work with. Ask us which certification your destination accepts.",
+    note: "Confirm the translation provider, credentials, price and accepted certification format before authorising work.",
     cta: { label: "Get document support", href: "/document-services" },
   },
   {
     id: "relocation",
     title: "Relocation",
     icon: "luggage",
-    intro: "Preparation for the move itself, so you arrive knowing what to do in your first days and weeks.",
+    intro: "Discuss practical preparation for travel and your first days after arrival.",
     items: [
       "Pre-departure checklist",
       "Accommodation guidance",

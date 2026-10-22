@@ -8,14 +8,13 @@ export default function PrivacyPage() {
   return (
     <LegalPage title="Privacy Policy">
       <p>
-        This policy explains how {siteConfig.legalEntity} (&quot;{siteConfig.shortName}&quot;, &quot;we&quot;) handles personal information when you use this website or our services.
+        This draft explains the information this website may collect when you contact {siteConfig.name} (&quot;{siteConfig.shortName}&quot;, &quot;we&quot;). The registered service provider, applicable jurisdiction and final data-handling arrangements must be confirmed before this policy is approved.
       </p>
       <h2>Information we collect</h2>
       <ul>
         <li>Contact details you give us: name, email, WhatsApp or phone number, country.</li>
         <li>Details about your plans: destination, course, qualifications, intake, budget range and messages.</li>
-        <li>Documents you choose to share with us during our services, through a secure channel we agree with you.</li>
-        <li>Basic technical data such as browser type and pages visited, if analytics are enabled.</li>
+        <li>Information you include in an enquiry message. Do not submit passport, bank-account or other sensitive documents through this website.</li>
       </ul>
       <h2>How we use it</h2>
       <ul>
@@ -23,14 +22,14 @@ export default function PrivacyPage() {
         <li>To prepare applications and documents on your instructions.</li>
         <li>To keep records we are legally required to keep.</li>
       </ul>
-      <p>We do not sell your personal information.</p>
+      <p>The business must confirm its actual data practices and any third-party disclosures before this draft is approved.</p>
       <h2>Sharing</h2>
       <p>
-        With your agreement, we share information with universities, translators, notaries and other parties needed to deliver your service. Embassies and immigration authorities receive your documents only through your own application. [REPLACE: list any service providers such as email, form or storage providers.]
+        Website enquiries are sent to the business only when a form-delivery provider has been configured. No form-delivery provider is currently configured for this review deployment, so online enquiries cannot be delivered. Before launch, identify the provider and explain its role here. Information should not be shared with institutions or other service providers without an appropriate service request and your instructions.
       </p>
       <h2>Storage and security</h2>
       <p>
-        We store information securely and only for as long as needed for the purpose it was collected, or as required by law. [REPLACE: retention period and where data is stored.]
+        This website does not provide document upload or document storage. The business must confirm its enquiry retention period, storage locations, access controls and deletion process before accepting personal information through a live form.
       </p>
       <h2>Your rights</h2>
       <p>

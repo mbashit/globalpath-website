@@ -9,9 +9,9 @@ import { siteConfig, decisionDisclaimer } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Book a Consultation",
+  title: "Request a Consultation",
   description:
-    "Book an online or in-person consultation for study abroad, visa documentation review, financial documentation guidance, translation or relocation.",
+    "Request an online consultation for study abroad, visa documentation, financial-document guidance, translation or relocation.",
   path: "/book-consultation",
 });
 
@@ -19,9 +19,9 @@ export default function BookConsultationPage() {
   return (
     <>
       <PageHero
-        title="Book a consultation"
-        intro="Choose the kind of help you need and a preferred time. We will confirm your appointment by WhatsApp or email."
-        crumbs={[{ label: "Book a Consultation" }]}
+        title="Request a consultation"
+        intro="Tell us what you need help with and how to reach you. We will contact you to agree on a time; submitting this request does not book or confirm an appointment."
+        crumbs={[{ label: "Request a Consultation" }]}
       />
 
       <Section tone="canvas">
@@ -38,7 +38,7 @@ export default function BookConsultationPage() {
             </ul>
             <div className="mt-6 flex gap-3 rounded-2xl bg-navy p-5 text-white">
               <Icon name="video" className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
-              <p>Online consultations by WhatsApp call or video are available wherever you are.</p>
+              <p>Online consultations can be arranged by WhatsApp call or video. Include your timezone when sharing a preferred time; no slot is confirmed until we contact you.</p>
             </div>
             <Notice className="mt-6">{decisionDisclaimer}</Notice>
           </div>
@@ -61,15 +61,15 @@ export default function BookConsultationPage() {
                   a Google Calendar appointment schedule, Cal.com or similar.
                   The iframe above renders automatically in place of this form.
                 */}
-                <h2 className="font-display text-2xl font-bold text-ink">Request your consultation</h2>
-                <p className="mt-2 text-ink-muted">We will confirm the date and time with you.</p>
+                <h2 className="font-display text-2xl font-bold text-ink">Request a consultation</h2>
+                <p className="mt-2 text-ink-muted">Preferred dates and times are requests only. We will agree on availability and timezone with you directly.</p>
                 <div className="mt-8">
                   <ContactForm
                     fields={consultationFields}
                     formType="consultation"
-                    submitLabel="Book a Consultation"
+                    submitLabel="Send Consultation Request"
                     successTitle="Consultation requested"
-                    successText="Thank you. We will contact you to confirm your consultation time, usually by WhatsApp."
+                    successText="Your request was delivered. We will contact you to discuss a suitable time; this is not a confirmed appointment."
                   />
                 </div>
               </>

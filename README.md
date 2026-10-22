@@ -1,55 +1,66 @@
 # GlobalPath Education & Mobility – Website
 
-Next.js 14 + TypeScript + Tailwind CSS. Mobile-first, WhatsApp-first.
+Next.js 16 + React 19 + TypeScript + Tailwind CSS. The site supports study-abroad enquiries and consultation requests.
 
 ## Run locally
+
 ```bash
 npm install
 cp .env.example .env.local   # then fill in the values
 npm run dev                  # http://localhost:3000
 npm run build && npm start   # production check
 ```
-Requires Node.js 18.17 or newer.
+
+Requires Node.js 20.9 or newer.
 
 ## Where to edit things
-| What | File |
-|---|---|
-| Company name, phone, WhatsApp, email, address, hours, social links, booking link | `data/site.ts` |
-| Menu and footer links | `data/navigation.ts` |
-| Services (home cards + Services page) | `data/services.ts` |
-| Destinations (add a country by copying one object) | `data/destinations.ts` |
-| FAQs | `data/faqs.ts` |
-| Testimonials (set `verified: true` for real ones) | `data/testimonials.ts` |
-| Form fields | `data/forms.ts` |
-| Image paths and alt text | `data/images.ts` + files in `public/images` |
-| Colours and fonts | `tailwind.config.ts`, `app/layout.tsx` |
 
-Search the project for `REPLACE` and `CONFIRM` to find every placeholder.
+| What                                                                             | File                                        |
+| -------------------------------------------------------------------------------- | ------------------------------------------- |
+| Company name, phone, WhatsApp, email, address, hours, social links, booking link | `data/site.ts`                              |
+| Menu and footer links                                                            | `data/navigation.ts`                        |
+| Services (home cards + Services page)                                            | `data/services.ts`                          |
+| Destinations (add a country by copying one object)                               | `data/destinations.ts`                      |
+| FAQs                                                                             | `data/faqs.ts`                              |
+| Form fields                                                                      | `data/forms.ts`                             |
+| Image paths and alt text                                                         | `data/images.ts` + files in `public/images` |
+| Colours and fonts                                                                | `tailwind.config.ts`, `app/layout.tsx`      |
 
 ## Forms
-All forms POST to `app/api/contact/route.ts`, which forwards the data as JSON to
-`FORM_FORWARD_URL` (Formspree, Make.com, Zapier or your own backend).
-If it is not set in production, forms show an error with a WhatsApp fallback,
-so no enquiry is silently lost. Add rate limiting before running ads.
 
-The document form does **not** upload files – only file names. See the comment
-in `components/ContactForm.tsx` for what secure storage is needed first.
+All forms POST to `app/api/contact/route.ts`. Set `FORM_FORWARD_URL` in Netlify
+to a trusted HTTPS webhook and test delivery before accepting enquiries. If it
+is unset, forms return an error and do not store or deliver submissions.
+The endpoint validates each form schema and applies a best-effort in-memory
+throttle; configure a durable Netlify/WAF rate limit before advertising.
+Forms do not upload documents.
 
 ## Booking calendar
+
 Set `bookingEmbedUrl` in `data/site.ts` (Calendly, Cal.com, Google Calendar
 appointment page) and it replaces the request form on `/book-consultation`.
 
 ## Images
+
 `public/images` contains branded SVG placeholders. Replace with real photos
 (JPG/WebP, ~1600px wide, <300 KB) showing African students and families, and
 update paths in `data/images.ts` / `data/destinations.ts`.
 Also regenerate `public/images/og-image.png` (1200×630) if the brand name changes.
 
 ## Deploy
-Easiest: push to GitHub and import into Vercel. Add `FORM_FORWARD_URL` and
-`NEXT_PUBLIC_SITE_URL` as environment variables.
 
-## Before launch
-- Legal pages are templates – get them reviewed by a lawyer.
-- Visa/funds information is general; re-check official links every few months.
-- Never publish testimonials, names or photos without written consent.
+The review site is linked to Netlify. From this directory, deploy manually with
+`npx netlify-cli deploy --prod`. The source repository is private on GitHub at
+`https://github.com/mbashit/globalpath-website`.
+
+## Production checklist
+
+- Confirm the registered business name, official domain, email, phone/WhatsApp, address, hours and consultation timezone.
+- Configure and test `FORM_FORWARD_URL` using a trusted provider; verify a test enquiry reaches the intended recipient.
+- Confirm the provider, retention period, storage region, access controls and deletion procedure; then update the Privacy Policy.
+- Have the Privacy Policy, Terms and Disclaimer reviewed for the operating jurisdiction by qualified counsel.
+- Confirm service scope, pricing/refund terms, translator/notary providers and credentials before making service claims.
+- Replace illustrative graphics with owned or licensed photography and write accurate alternative text.
+- Publish only client stories with verified details and written consent; currently no testimonials are displayed.
+- Set `NEXT_PUBLIC_SITE_URL` to the official domain and `NEXT_PUBLIC_ALLOW_INDEXING=true` only after launch approval. Keep review deploys non-indexable.
+- Verify country-specific admissions and immigration content against current official sources before relying on it.

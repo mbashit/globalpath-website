@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/data/site";
 
-type SeoInput = { title: string; description: string; path: string; keywords?: string[] };
+type SeoInput = { title: string; description: string; path: string; keywords?: string[]; robots?: Metadata["robots"] };
 
 /** Unique title, description, canonical and OpenGraph tags for each page. */
-export function buildMetadata({ title, description, path, keywords = [] }: SeoInput): Metadata {
+export function buildMetadata({ title, description, path, keywords = [], robots }: SeoInput): Metadata {
   const url = path === "/" ? "/" : path;
   return {
     title,
     description,
     keywords,
+    ...(robots ? { robots } : {}),
     alternates: { canonical: url },
     openGraph: {
       title: `${title} | ${siteConfig.shortName}`,

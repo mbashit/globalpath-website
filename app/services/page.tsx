@@ -23,10 +23,10 @@ export default function ServicesPage() {
     <>
       <PageHero
         title="Services for every stage of your move abroad"
-        intro="Use one service or combine them. Every engagement starts with a consultation so we understand your situation first."
+        intro="Explore the support areas. Confirm scope, provider, fees and timing in writing before agreeing to paid work."
         crumbs={[{ label: "Services" }]}
       >
-        <ButtonLink href="/book-consultation">Book a Consultation</ButtonLink>
+          <ButtonLink href="/book-consultation">Request a Consultation</ButtonLink>
       </PageHero>
 
       {/* Quick jump */}

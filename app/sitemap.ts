@@ -4,7 +4,7 @@ import { destinations } from "@/data/destinations";
 
 const staticPaths = [
   "", "/study-abroad", "/destinations", "/services", "/proof-of-funds", "/document-services", "/visa-support",
-  "/about", "/success-stories", "/faqs", "/contact", "/book-consultation", "/privacy-policy", "/terms", "/disclaimer",
+  "/about", "/faqs", "/contact", "/book-consultation", "/privacy-policy", "/terms", "/disclaimer",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

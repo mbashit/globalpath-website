@@ -39,7 +39,7 @@ export default function FAQsPage() {
         </div>
       </Section>
       <CTASection title="Still have a question?" text="Message us on WhatsApp or book a consultation and we will answer it personally." />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
     </>
   );
 }

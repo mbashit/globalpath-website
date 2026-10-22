@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { startTransition, useEffect, useId, useRef, useState } from "react";
-import { CheckCircle2, ChevronDown, Loader2, Paperclip } from "lucide-react";
+import { CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
 import type { Field } from "@/data/forms";
 import { whatsappLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/cn";
@@ -37,15 +37,13 @@ export function ContactForm({
   formType,
   submitLabel,
   successTitle = "Request sent",
-  successText = "Thank you. Our team will contact you, usually by WhatsApp, to confirm the next steps.",
-  showUpload = false,
+  successText = "Thank you. Your request was delivered. We will contact you to discuss next steps.",
 }: {
   fields: Field[];
   formType: string;
   submitLabel: string;
   successTitle?: string;
   successText?: string;
-  showUpload?: boolean;
 }) {
   const uid = useId();
   const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(fields.map((f) => [f.name, ""])));
@@ -53,9 +51,9 @@ export function ContactForm({
   const [consent, setConsent] = useState(false);
   const [consentError, setConsentError] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
-  const [fileNames, setFileNames] = useState<string[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
+  const submittingRef = useRef(false);
 
   // Prefill from the URL, e.g. /book-consultation?service=visa or ?destination=Germany
   useEffect(() => {
@@ -79,6 +77,7 @@ export function ContactForm({
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submittingRef.current) return;
     const nextErrors: Record<string, string | null> = {};
     fields.forEach((f) => (nextErrors[f.name] = validate(f, values[f.name] ?? "")));
     setErrors(nextErrors);
@@ -90,6 +89,7 @@ export function ContactForm({
       return;
     }
 
+    submittingRef.current = true;
     setStatus("submitting");
     try {
       const honeypot = (formRef.current?.elements.namedItem("company_website") as HTMLInputElement | null)?.value ?? "";
@@ -99,8 +99,7 @@ export function ContactForm({
         body: JSON.stringify({
           formType,
           data: values,
-          // Only file NAMES are sent – never file contents. See note below.
-          attachmentsListed: fileNames,
+          consent,
           company_website: honeypot,
           page: window.location.pathname,
         }),
@@ -109,6 +108,8 @@ export function ContactForm({
       setStatus("success");
     } catch {
       setStatus("error");
+    } finally {
+      submittingRef.current = false;
     }
     setTimeout(() => statusRef.current?.focus(), 50);
   }
@@ -186,56 +187,10 @@ export function ContactForm({
               />
             )}
             {f.hint && !err && <p id={`${id}-hint`} className="mt-1.5 text-sm text-ink-faint">{f.hint}</p>}
-            {err && <p id={`${id}-err`} className="mt-1.5 text-sm font-medium text-[#C8341B]">{err}</p>}
+            {err && <p id={`${id}-err`} role="alert" className="mt-1.5 text-sm font-medium text-[#C8341B]">{err}</p>}
           </div>
         );
       })}
-
-      {showUpload && (
-        <div className="sm:col-span-2">
-          {/*
-            ================================================================
-            SECURE UPLOAD NEEDED BEFORE ACCEPTING FILES
-            This input only lists file NAMES so the team knows what to expect.
-            File contents are NOT uploaded anywhere. Before accepting real
-            documents (passports, certificates, police reports) you need:
-              - an authenticated backend endpoint (e.g. /api/upload)
-              - encrypted private storage (e.g. S3 / Cloudflare R2 private bucket
-                with signed upload URLs), never a public folder
-              - file type + size checks and virus scanning
-              - an automatic deletion/retention policy matching the Privacy Policy
-            Until then, documents are collected through a secure channel
-            agreed with the client after first contact.
-            ================================================================
-          */}
-          <label htmlFor={`${uid}-files`} className="text-sm font-semibold text-ink">
-            Documents to translate <span className="font-normal text-ink-faint">(optional, file names only)</span>
-          </label>
-          <label
-            htmlFor={`${uid}-files`}
-            className="mt-1.5 flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed border-line bg-canvas px-4 py-6 text-center text-ink-muted hover:border-navy/40"
-          >
-            <Paperclip className="h-6 w-6 text-navy" aria-hidden="true" />
-            <span>Choose files so we can see what you need translated</span>
-            <span className="text-sm text-ink-faint">We only record file names here. We will send you a secure way to share the documents themselves.</span>
-          </label>
-          <input
-            id={`${uid}-files`}
-            type="file"
-            multiple
-            accept=".pdf,.jpg,.jpeg,.png"
-            className="sr-only"
-            onChange={(e) => setFileNames(Array.from(e.target.files ?? []).map((f) => f.name))}
-          />
-          {fileNames.length > 0 && (
-            <ul className="mt-2 flex flex-wrap gap-2 text-sm">
-              {fileNames.map((n) => (
-                <li key={n} className="rounded-full bg-navy-soft px-3 py-1 text-navy">{n}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
 
       <div className="sm:col-span-2">
         <label className="flex items-start gap-3 text-[0.95rem] text-ink-muted">
@@ -254,6 +209,7 @@ export function ContactForm({
           <span>
             I agree to be contacted about my enquiry and I have read the{" "}
             <Link href="/privacy-policy" className="font-semibold text-navy underline underline-offset-2">Privacy Policy</Link>.
+            <span className="mt-1 block text-sm text-ink-faint">Please do not include passport, bank-account or other sensitive document details in this form.</span>
           </span>
         </label>
         {consentError && <p id={`${uid}-consent-err`} className="mt-1.5 text-sm font-medium text-[#C8341B]">Tick the box so we can contact you</p>}
@@ -261,7 +217,7 @@ export function ContactForm({
 
       {status === "error" && (
         <div ref={statusRef} tabIndex={-1} role="alert" className="rounded-xl border border-[#C8341B]/30 bg-[#FFF1EC] p-4 text-[0.95rem] text-[#7A2410] outline-none sm:col-span-2">
-          Your request could not be sent. Check your connection and try again, or{" "}
+          Your request was not delivered. Your answers are still here so you can retry, or contact us directly on WhatsApp: {" "}
           <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="font-semibold underline">send us the details on WhatsApp</a>.
         </div>
       )}

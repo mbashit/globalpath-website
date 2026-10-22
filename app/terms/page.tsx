@@ -7,10 +7,10 @@ export const metadata = buildMetadata({ title: "Terms & Conditions", description
 export default function TermsPage() {
   return (
     <LegalPage title="Terms & Conditions">
-      <p>These terms apply to your use of this website and to services provided by {siteConfig.legalEntity}.</p>
+      <p>These draft terms describe the general information on this website and the intended approach to consultation requests. Confirm the registered service-provider name, governing jurisdiction and final client agreement with a qualified lawyer before relying on them as a contract.</p>
       <h2>Our services</h2>
       <p>
-        We provide guidance and application support for international education, documentation, visa preparation and relocation. The scope, fees and timelines of each service are confirmed in writing before work begins. [REPLACE: reference your client agreement.]
+        The services described on this website may include guidance on international education, document preparation and relocation. The actual scope, fees and timelines for any engagement should be agreed in writing before paid work begins.
       </p>
       <h2>No guarantee of outcome</h2>
       <p>{decisionDisclaimer} We cannot guarantee admission, visas, scholarships or processing times.</p>
@@ -22,15 +22,15 @@ export default function TermsPage() {
       </ul>
       <p>We will not submit, prepare or knowingly handle false or altered documents, and we may end our services if we find such documents.</p>
       <h2>Fees and refunds</h2>
-      <p>[REPLACE: payment terms, what is refundable and when.]</p>
+      <p>This website does not set service prices, payment deadlines or refund terms. Request and review a written quote and service agreement covering those details before making a payment. Third-party charges should be identified separately.</p>
       <h2>Website content</h2>
       <p>
         Information on this website is general guidance and may not reflect the latest official requirements. Always confirm requirements with the relevant institution or authority.
       </p>
       <h2>Liability</h2>
-      <p>[REPLACE: limitation of liability wording approved by your lawyer.]</p>
+      <p>The website provides general information and is not a substitute for advice from the relevant institution, immigration authority or a qualified professional. Any liability wording must be completed and reviewed for the applicable jurisdiction before these terms are treated as final.</p>
       <h2>Governing law</h2>
-      <p>[REPLACE: the country whose law governs these terms.]</p>
+      <p>The governing jurisdiction has not been supplied. This section must be completed with the business owner and reviewed by a qualified lawyer before production use.</p>
       <h2>Contact</h2>
       <p><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></p>
     </LegalPage>

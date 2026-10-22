@@ -14,7 +14,7 @@ export function Logo({ inverted = false, className }: { inverted?: boolean; clas
         <path d="M28.5 7.5l4.5 2.4-3.6 3.6z" fill="#FDBE18" />
       </svg>
       <span className="leading-none">
-        <span className={cn("block font-display text-[1.2rem] font-bold tracking-tight", inverted ? "text-white" : "text-navy")}>
+        <span className={cn("block font-display text-[1.2rem] font-bold", inverted ? "text-white" : "text-navy")}>
           {siteConfig.shortName}
         </span>
         <span className={cn("mt-0.5 block text-[0.72rem] font-medium", inverted ? "text-white/70" : "text-ink-muted")}>

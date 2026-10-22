@@ -30,7 +30,7 @@ export default function DocumentServicesPage() {
     <>
       <PageHero
         title="Translation & document preparation"
-        intro="Translations and certified copies prepared in the format your university or embassy asks for."
+        intro="Discuss translation and document-preparation requirements for your application. The receiving institution decides which formats it accepts."
         crumbs={[{ label: "Services", href: "/services" }, { label: "Document Services" }]}
       >
         <ButtonLink href="#quote">Get Document Support</ButtonLink>
@@ -50,22 +50,22 @@ export default function DocumentServicesPage() {
             </article>
           ))}
         </div>
-        {/* CONFIRM with owner: who performs translations and which certifications they hold. Adjust this notice accordingly. */}
         <Notice className="mt-8">
-          Translations are completed by qualified translators we work with, and notarization is carried out by a licensed notary. Requirements differ between institutions, so we confirm the accepted format before starting.
+          Ask us to confirm the provider, credentials, price, turnaround and certification format in writing before authorising translation or notarization work.
         </Notice>
       </Section>
 
       <Section tone="canvas" id="quote">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
           <div>
-            <SectionHeading title="Request a translation quote" intro="Tell us what you need translated and by when. We will reply with a price and timeline." />
-            <Notice tone="integrity" className="mt-8" title="Your documents stay private">
-              This form does not upload your files. After we contact you, we will share a secure way to send the documents.
+            <SectionHeading title="Request a document-service quote" intro="Tell us the document type, language pair and deadline. We will discuss scope, provider and price before any work begins." />
+            <Notice tone="integrity" className="mt-8" title="Do not send documents through this page">
+              This form does not accept file uploads. Share sensitive documents only after agreeing on a suitable secure channel.
             </Notice>
           </div>
           <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-line md:p-10">
-            <ContactForm fields={documentFields} formType="document-quote" submitLabel="Request a Quote" successTitle="Quote requested" showUpload />
+            <p className="mb-6 rounded-xl bg-canvas p-4 text-sm text-ink-muted">Do not attach or send personal documents in this form. If a review requires documents, we will agree on an appropriate secure channel first.</p>
+            <ContactForm fields={documentFields} formType="document-quote" submitLabel="Request a Quote" successTitle="Quote requested" />
           </div>
         </div>
       </Section>

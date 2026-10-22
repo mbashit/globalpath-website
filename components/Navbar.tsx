@@ -140,7 +140,7 @@ export function Navbar() {
             href="/book-consultation"
             className="hidden min-h-[44px] items-center rounded-full bg-brandorange px-5 text-[0.93rem] font-semibold text-navy-ink transition-colors hover:bg-gold sm:inline-flex"
           >
-            Book a Consultation
+            Request a Consultation
           </Link>
           <button
             type="button"
@@ -159,7 +159,7 @@ export function Navbar() {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-white transition-[opacity,transform] duration-300 xl:hidden",
+          "absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-72px)] overflow-y-auto bg-white transition-[opacity,transform] duration-300 xl:hidden",
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
         )}
       >
@@ -189,7 +189,7 @@ export function Navbar() {
         </ul>
         <div className="container grid gap-3 pb-10">
           <Link href="/book-consultation" className="flex min-h-[52px] items-center justify-center rounded-full bg-brandorange font-semibold text-navy-ink">
-            Book a Consultation
+              Request a Consultation
           </Link>
           <a href={`tel:${siteConfig.phoneHref}`} className="flex min-h-[52px] items-center justify-center rounded-full border-2 border-navy/15 font-semibold text-navy">
             Call {siteConfig.phoneDisplay}
