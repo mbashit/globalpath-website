@@ -16,6 +16,10 @@
     body {
       padding-bottom: 76px;
     }
+    /* The student portal and admin area have no sticky action bar */
+    body:has(.portal-shell) {
+      padding-bottom: 0;
+    }
   }
   :focus-visible {
     outline: 3px solid #f7941d;

@@ -36,6 +36,14 @@ The endpoint validates each form schema and applies a best-effort in-memory
 throttle; configure a durable Netlify/WAF rate limit before advertising.
 Forms do not upload documents.
 
+## Student portal
+
+Optional student accounts (`/login`, `/signup`, `/portal`) and a staff review area
+(`/admin`) run on Supabase. They stay switched off until the Supabase variables in
+`.env.example` are set; the public site works the same either way. Setup, admin
+provisioning and security notes: [`docs/STUDENT_PORTAL.md`](docs/STUDENT_PORTAL.md).
+Database access rules are tested with `npm run test:db`.
+
 ## Booking calendar
 
 Set `bookingEmbedUrl` in `data/site.ts` (Calendly, Cal.com, Google Calendar

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton, MobileCTABar } from "@/components/WhatsAppButton";
+import { PublicOnly } from "@/components/PublicOnly";
 import { siteConfig } from "@/data/site";
 import { baseKeywords } from "@/lib/seo";
 
@@ -51,11 +52,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
-        <Navbar />
+        <PublicOnly>
+          <Navbar />
+        </PublicOnly>
         <main id="main">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <MobileCTABar />
+        <PublicOnly>
+          <Footer />
+          <WhatsAppButton />
+          <MobileCTABar />
+        </PublicOnly>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }} />
       </body>
     </html>

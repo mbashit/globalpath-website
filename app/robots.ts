@@ -5,5 +5,5 @@ export default function robots(): MetadataRoute.Robots {
   if (!siteConfig.allowIndexing) {
     return { rules: [{ userAgent: "*", disallow: "/" }] };
   }
-  return { rules: [{ userAgent: "*", allow: "/", disallow: ["/api/"] }], sitemap: `${siteConfig.url}/sitemap.xml` };
+  return { rules: [{ userAgent: "*", allow: "/", disallow: ["/api/", "/portal", "/admin", "/auth/"] }], sitemap: `${siteConfig.url}/sitemap.xml` };
 }

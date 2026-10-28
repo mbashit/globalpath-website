@@ -9,6 +9,7 @@ import { mainNav } from "@/data/navigation";
 import { siteConfig } from "@/data/site";
 import { whatsappLink, whatsappMessageForPath } from "@/lib/whatsapp";
 import { WhatsAppGlyph } from "./SocialIcons";
+import { AccountLinks, MobileAccountLinks } from "./AccountLinks";
 import { cn } from "@/lib/cn";
 
 export function Navbar() {
@@ -127,6 +128,7 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <AccountLinks className="hidden xl:block" />
           <a
             href={waHref}
             target="_blank"
@@ -194,6 +196,7 @@ export function Navbar() {
           <a href={`tel:${siteConfig.phoneHref}`} className="flex min-h-[52px] items-center justify-center rounded-full border-2 border-navy/15 font-semibold text-navy">
             Call {siteConfig.phoneDisplay}
           </a>
+          <MobileAccountLinks />
         </div>
       </div>
     </header>

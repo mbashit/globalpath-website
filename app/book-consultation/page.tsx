@@ -70,6 +70,7 @@ export default function BookConsultationPage() {
                     submitLabel="Send Consultation Request"
                     successTitle="Consultation requested"
                     successText="Your request was delivered. We will contact you to discuss a suitable time; this is not a confirmed appointment."
+                    prefillFromAccount
                   />
                 </div>
               </>
