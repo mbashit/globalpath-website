@@ -64,6 +64,9 @@ export const siteConfig = {
 
 export type SiteConfig = typeof siteConfig;
 
+/** Application fee charged (via Paystack) before an eligibility review is submitted. */
+export const applicationFee = { amount: 40, currency: "USD", label: "$40" };
+
 /** Standard compliance disclaimer – reused across the site. */
 export const decisionDisclaimer =
   "Visa and admission decisions are made solely by the relevant embassies, immigration authorities, universities and institutions. Our role is to provide professional guidance and application support.";

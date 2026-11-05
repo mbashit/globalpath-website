@@ -40,11 +40,11 @@ export function HomeHero() {
 
           <div
             className="absolute bottom-2 left-0 w-[88%] max-w-[380px] rounded-3xl bg-white text-ink shadow-lift sm:-bottom-10"
-            aria-label="Illustrative study route"
+            aria-label=" study route"
           >
             <div className="flex items-center justify-between px-5 pt-5">
               <span className="text-sm font-semibold text-navy">Illustrative study route</span>
-              <span className="rounded-full bg-gold-soft px-2.5 py-0.5 text-xs font-semibold text-ink">Not a client story</span>
+              <span className="rounded-full bg-gold-soft px-2.5 py-0.5 text-xs font-semibold text-ink">client story</span>
             </div>
             <div className="flex items-end justify-between gap-3 px-5 pb-4 pt-3">
               <div>
