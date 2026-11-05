@@ -11,7 +11,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Request a Consultation",
   description:
-    "Request an online consultation for study abroad, visa documentation, financial-document guidance, translation or relocation.",
+    "Request an online consultation for study abroad, visa documentation, financial-document guidance, translation, flights or accommodation.",
   path: "/book-consultation",
 });
 

@@ -10,7 +10,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Contact Us",
-  description: `Contact ${siteConfig.name} by WhatsApp, phone or email for study abroad, visa documentation, translation and relocation enquiries.`,
+  description: `Contact ${siteConfig.name} by WhatsApp, phone or email for study abroad, visa documentation, translation, flight and accommodation enquiries.`,
   path: "/contact",
 });
 

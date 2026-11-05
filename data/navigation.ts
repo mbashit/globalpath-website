@@ -1,22 +1,23 @@
 export type NavChild = { label: string; href: string; note?: string };
-export type NavItem = { label: string; href: string; children?: NavChild[] };
+/** `menuOnly` items appear in the mobile menu but not the desktop bar (the logo links home; FAQs are in the footer). */
+export type NavItem = { label: string; href: string; children?: NavChild[]; menuOnly?: boolean };
 
 export const mainNav: NavItem[] = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/", menuOnly: true },
   { label: "Study Abroad", href: "/study-abroad" },
   { label: "Destinations", href: "/destinations" },
   {
     label: "Services",
     href: "/services",
     children: [
-      { label: "All services", href: "/services", note: "Admissions, visas, documents, relocation" },
+      { label: "All services", href: "/services", note: "Admissions, visas, documents, flights" },
       { label: "Visa support", href: "/visa-support", note: "Checklists, review and interview prep" },
       { label: "Proof of funds guidance", href: "/proof-of-funds", note: "Financial documentation explained" },
       { label: "Document services", href: "/document-services", note: "Translation and notarization" },
     ],
   },
   { label: "About", href: "/about" },
-  { label: "FAQs", href: "/faqs" },
+  { label: "FAQs", href: "/faqs", menuOnly: true },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -34,7 +35,12 @@ export const footerLinks = {
     { label: "Visa Support", href: "/visa-support" },
     { label: "Proof of Funds Guidance", href: "/proof-of-funds" },
     { label: "Translation", href: "/document-services" },
-    { label: "Relocation", href: "/services#relocation" },
+    { label: "Flights & Accommodation", href: "/services#travel" },
+  ],
+  portal: [
+    { label: "Student Portal", href: "/portal" },
+    { label: "Log in", href: "/login" },
+    { label: "Create Account", href: "/signup" },
   ],
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy" },

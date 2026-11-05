@@ -6,7 +6,7 @@ import { Notice } from "@/components/Notice";
 import { CTASection } from "@/components/CTASection";
 import { SmartImage } from "@/components/SmartImage";
 import { eligibilityFields } from "@/data/forms";
-import { decisionDisclaimer } from "@/data/site";
+import { applicationFee, decisionDisclaimer } from "@/data/site";
 import { images } from "@/data/images";
 import { buildMetadata } from "@/lib/seo";
 
@@ -91,10 +91,13 @@ export default function StudyAbroadPage() {
               title="Request an eligibility review"
               intro="Tell us about your studies and plans. An adviser will review your profile and contact you with realistic options and next steps."
             />
+            <p className="mt-6 text-ink-muted">
+              <strong className="text-ink">Application fee: {applicationFee.label}.</strong> After you submit the form you will be taken to Paystack to pay securely by card or bank transfer. Your request is sent to our team once payment is confirmed.
+            </p>
             <Notice className="mt-8">{decisionDisclaimer}</Notice>
           </div>
           <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-line md:p-10">
-            <ContactForm fields={eligibilityFields} formType="eligibility-review" submitLabel="Request an Eligibility Review" successTitle="Eligibility review requested" />
+            <ContactForm fields={eligibilityFields} formType="eligibility-review" submitLabel={`Continue to Pay ${applicationFee.label}`} successTitle="Eligibility review requested" />
           </div>
         </div>
       </Section>

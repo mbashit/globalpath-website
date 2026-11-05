@@ -21,7 +21,7 @@ export default async function PortalLayout({ children }: { children: React.React
   ]);
 
   const nav: ShellNavItem[] = [
-    { label: "Dashboard", href: "/portal", icon: "dashboard" },
+    { label: "Overview", href: "/portal", icon: "dashboard" },
     { label: "My Profile", href: "/portal/profile", icon: "profile" },
     { label: "Educational History", href: "/portal/education", icon: "education" },
     { label: "Universities & Courses", href: "/portal/universities", icon: "universities" },

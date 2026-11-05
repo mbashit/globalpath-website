@@ -21,6 +21,8 @@ export async function signUpAction(_prev: ActionState, form: FormData): Promise<
   const password = String(form.get("password") ?? "");
   const confirm = String(form.get("confirmPassword") ?? "");
   const accepted = form.get("acceptTerms") === "on";
+  // Where the verification link lands: the protected page the visitor was heading to, if any.
+  const next = safeNext(form.get("next"));
 
   const fieldErrors: Record<string, string> = {};
   if (!firstName) fieldErrors.firstName = "Enter your first name";
@@ -37,7 +39,7 @@ export async function signUpAction(_prev: ActionState, form: FormData): Promise<
     email,
     password,
     options: {
-      emailRedirectTo: confirmUrl("/portal"),
+      emailRedirectTo: confirmUrl(next),
       data: { first_name: firstName, last_name: lastName, accepted_terms: "true" },
     },
   });

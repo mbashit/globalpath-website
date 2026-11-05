@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { AuthShell } from "@/components/portal/AuthShell";
 import { SignUpForm } from "@/components/portal/AuthForms";
+import { safeNext } from "@/lib/portal/validation";
 
 export const metadata: Metadata = {
   title: "Create a Student Account",
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function SignUpPage() {
+export default async function SignUpPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
+  const next = safeNext((await searchParams).next, "");
   return (
     <AuthShell
       title="Create your student account"
@@ -19,7 +21,7 @@ export default function SignUpPage() {
         </>
       }
     >
-      <SignUpForm />
+      <SignUpForm next={next} />
     </AuthShell>
   );
 }

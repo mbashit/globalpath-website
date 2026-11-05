@@ -9,7 +9,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "About Us",
-  description: `Why we created ${siteConfig.name}: clear, transparent and professional guidance for African students and families planning international study and relocation.`,
+  description: `Why we created ${siteConfig.name}: clear, transparent and professional guidance for African students and families planning to study abroad.`,
   path: "/about",
 });
 
@@ -27,7 +27,7 @@ export default function AboutPage() {
     <>
       <PageHero
         title="Making international education easier to understand"
-        intro={`We created ${siteConfig.name} to make international education and relocation easier to understand for students and families across Africa.`}
+        intro={`We created ${siteConfig.name} to make international education easier to understand for students and families across Africa.`}
         crumbs={[{ label: "About Us" }]}
       />
 

@@ -4,7 +4,9 @@ import { isPortalConfigured } from "@/lib/supabase/config";
 
 /**
  * Contact details of the signed-in student, used to prefill the existing
- * consultation form. Returns 401 for visitors, so public forms are unchanged.
+ * consultation form and to switch the public header to account links.
+ * Returns 401 for visitors, so public forms are unchanged. `staff` only
+ * decides whether a link is shown; /admin enforces access on the server.
  */
 export async function GET() {
   const noStore = { "Cache-Control": "private, no-store" };
@@ -12,14 +14,15 @@ export async function GET() {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user?.email_confirmed_at) return NextResponse.json({ signedIn: false }, { status: 401, headers: noStore });
-  const { data } = await supabase
-    .from("profiles")
-    .select("first_name, last_name, email, phone, preferred_destination")
-    .eq("id", auth.user.id)
-    .maybeSingle();
+  const [{ data }, { data: staff }] = await Promise.all([
+    supabase.from("profiles").select("first_name, last_name, email, phone, preferred_destination").eq("id", auth.user.id).maybeSingle(),
+    supabase.from("staff_roles").select("role").eq("user_id", auth.user.id).maybeSingle(),
+  ]);
   return NextResponse.json(
     {
       signedIn: true,
+      staff: Boolean(staff),
+      firstName: data?.first_name ?? "",
       name: [data?.first_name, data?.last_name].filter(Boolean).join(" "),
       email: data?.email ?? auth.user.email ?? "",
       whatsapp: data?.phone ?? "",

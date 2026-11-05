@@ -11,12 +11,12 @@ const shortName = "GlobalPath";
 
 export const siteConfig = {
   // ---- Brand ------------------------------------------------
-  name: "GlobalPath Education & Mobility",
+  name: "GlobalPath Education",
   shortName,
-  logoSubline: "Education & Mobility",
-  tagline: "Your path to study, travel and opportunity abroad.",
+  logoSubline: "Study Abroad Consultancy",
+  tagline: "Your path to studying abroad, from application to arrival.",
   description:
-    "Professional support for international education, documentation, visa preparation and relocation for students and families across Africa.",
+    "Professional study abroad support for students and families across Africa: university applications and admission, visa preparation, documentation, flight booking and accommodation.",
 
   // ---- Domain (used for SEO, sitemap, OpenGraph) -------------
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalpath-client-review.netlify.app",
@@ -45,11 +45,15 @@ export const siteConfig = {
   timeZoneNote: "",
 
   // ---- Social media -------------------------------------------
-  // Empty values hide social icons until verified profile URLs are supplied.
+  // Paste the full profile URL between the quotes, e.g.
+  //   facebook: "https://www.facebook.com/globalpatheducation",
+  // Each icon appears in the footer as soon as its URL is filled in;
+  // empty values stay hidden so the site never shows dead links.
   social: {
-    instagram: "",
-    facebook: "",
-    tiktok: "",
+    facebook: "", // https://www.facebook.com/...
+    x: "", // https://x.com/...
+    instagram: "", // https://www.instagram.com/...
+    tiktok: "", // optional: https://www.tiktok.com/@...
   },
 
   // ---- WhatsApp default message ---------------------------------
@@ -63,6 +67,9 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
+
+/** Application fee charged (via Paystack) before an eligibility review is submitted. */
+export const applicationFee = { amount: 40, currency: "USD", label: "$40" };
 
 /** Standard compliance disclaimer – reused across the site. */
 export const decisionDisclaimer =

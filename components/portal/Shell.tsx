@@ -113,7 +113,7 @@ export function Shell({
             </Link>
           )}
           <Link href="/" className="rounded-full px-3 py-1.5 text-sm font-semibold text-ink-muted hover:bg-canvas">
-            Public website
+            Back to GlobalPath website
           </Link>
         </div>
         <form action={signOutAction} className="mt-2">

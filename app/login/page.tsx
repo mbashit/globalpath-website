@@ -24,10 +24,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const notice = notices[sp.notice ?? ""] ?? notices[sp.reason ?? ""] ?? notices[sp.error ?? ""];
   return (
     <AuthShell title="Log in to your portal" intro="Access your profile, documents and application preparation.">
-      {notice && <Alert tone={notice.tone} className="mb-6">{notice.text}</Alert>}
+      {notice ? (
+        <Alert tone={notice.tone} className="mb-6">{notice.text}</Alert>
+      ) : (
+        next && <Alert tone="info" className="mb-6">Log in or create an account to continue. We will take you to the page you asked for.</Alert>
+      )}
       <LoginForm next={next} />
       <p className="mt-8 border-t border-line pt-6 text-sm text-ink-muted">
-        New to GlobalPath? <Link href="/signup" className={buttonClass.link}>Create an account</Link>
+        New to GlobalPath? <Link href={next ? `/signup?next=${encodeURIComponent(next)}` : "/signup"} className={buttonClass.link}>Create an account</Link>
       </p>
     </AuthShell>
   );

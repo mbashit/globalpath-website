@@ -54,6 +54,12 @@
   }
 }
 
+/* While a session cookie is being checked, keep visitor account links
+   invisible (space reserved, so no layout shift). See AccountLinks.tsx. */
+html[data-auth="pending"] .account-guest {
+  visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

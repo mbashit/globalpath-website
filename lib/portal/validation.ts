@@ -27,7 +27,9 @@ export const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 /** Only allow same-site relative redirects (prevents open redirects via ?next=). */
 export function safeNext(next: unknown, fallback = "/portal"): string {
-  if (typeof next !== "string" || !next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\")) return fallback;
+  // URL parsers drop tabs/newlines and treat "\" as "/", so "/\t/evil.com" would become "//evil.com".
+  if (typeof next !== "string" || next.length > 500 || !next.startsWith("/") || /[\x00-\x1f\x7f\\]/.test(next)) return fallback;
+  if (next.startsWith("//")) return fallback;
   return next;
 }
 

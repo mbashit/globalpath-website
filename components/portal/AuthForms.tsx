@@ -8,7 +8,7 @@ import { Alert, Field, buttonClass } from "./ui";
 import { FormResult, PasswordInput, SubmitButton } from "./forms";
 import { cn } from "@/lib/cn";
 
-export function SignUpForm() {
+export function SignUpForm({ next = "" }: { next?: string }) {
   const [state, action] = useActionState(signUpAction, null);
   const fe = state?.fieldErrors ?? {};
 
@@ -27,6 +27,7 @@ export function SignUpForm() {
 
   return (
     <form action={action} noValidate className="grid gap-5 sm:grid-cols-2">
+      <input type="hidden" name="next" value={next} />
       <Field label="First name" name="firstName" autoComplete="given-name" required error={fe.firstName} />
       <Field label="Last name" name="lastName" autoComplete="family-name" required error={fe.lastName} />
       <Field label="Email" name="email" type="email" autoComplete="email" required error={fe.email} className="sm:col-span-2" />
@@ -53,7 +54,7 @@ export function SignUpForm() {
       <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
         <SubmitButton pendingText="Creating account…">Create account</SubmitButton>
         <p className="text-sm text-ink-muted">
-          Already registered? <Link href="/login" className={buttonClass.link}>Log in</Link>
+          Already registered? <Link href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"} className={buttonClass.link}>Log in</Link>
         </p>
       </div>
     </form>

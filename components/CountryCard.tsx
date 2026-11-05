@@ -26,7 +26,7 @@ export function CountryCard({ d, priority = false }: { d: Destination; priority?
             <li key={o} className="rounded-full bg-canvas px-3 py-1 text-[0.8rem] text-ink-muted ring-1 ring-line">{o}</li>
           ))}
         </ul>
-        <p className="mt-4 text-sm text-ink-faint">Admission, visa-document and relocation support available.</p>
+        <p className="mt-4 text-sm text-ink-faint">Admission, visa-document, flight and accommodation support available.</p>
         <Link
           href={`/destinations/${d.slug}`}
           className="mt-5 inline-flex min-h-[44px] w-fit items-center rounded-full bg-navy px-5 font-semibold text-white transition-colors after:absolute after:inset-0 hover:bg-navy-deep"

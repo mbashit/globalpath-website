@@ -1,4 +1,4 @@
-# GlobalPath Education & Mobility – Website
+# GlobalPath Education – Website
 
 Next.js 16 + React 19 + TypeScript + Tailwind CSS. The site supports study-abroad enquiries and consultation requests.
 
