@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { isValidWebhookSignature, verifyFeePayment } from "@/lib/paystack";
+import { recordFeePayment } from "@/lib/portal/payments";
 
 /**
  * Paystack webhook. Set this URL in Paystack → Settings → API Keys & Webhooks:
  *   https://<your-domain>/api/payments/paystack/webhook
  *
- * On a signed charge.success event the charge is re-verified with Paystack,
- * then the paid eligibility review is forwarded to FORM_FORWARD_URL with the
- * payment reference. A non-200 reply makes Paystack retry, so a failed
- * forward is not lost. The reference lets the inbox spot rare duplicates.
+ * On a signed charge.success event the charge is re-verified with Paystack
+ * and the application fee is recorded, so an application is marked paid even
+ * if the student closes the browser before returning from checkout. A
+ * non-200 reply makes Paystack retry.
  */
 export async function POST(req: Request) {
   const rawBody = await req.text();
@@ -26,41 +27,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  let payment;
   try {
-    payment = await verifyFeePayment(event.data.reference);
-  } catch (error) {
-    console.error("Paystack verification failed", error);
-    return NextResponse.json({ ok: false }, { status: 502 });
-  }
-  // Not an application-fee charge (or not paid in full): acknowledge and ignore.
-  if (!payment) return NextResponse.json({ ok: true });
-
-  const forwardUrl = process.env.FORM_FORWARD_URL;
-  let target: URL;
-  try {
-    target = new URL(forwardUrl ?? "");
-    if (target.protocol !== "https:" || target.username || target.password) throw new Error("Unsafe URL");
-  } catch {
-    console.error("FORM_FORWARD_URL is missing or invalid; paid eligibility review was not delivered.");
-    return NextResponse.json({ ok: false }, { status: 503 });
-  }
-
-  try {
-    const res = await fetch(target, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        ...payment.metadata,
-        payment: { provider: "paystack", reference: payment.reference, amount: payment.amount, currency: payment.currency, paidAt: payment.paidAt },
-      }),
-      redirect: "error",
-      signal: AbortSignal.timeout(10_000),
-    });
-    if (!res.ok) throw new Error("Form forward failed");
+    const payment = await verifyFeePayment(event.data.reference);
+    // Not an application-fee charge (or not paid in full): acknowledge and ignore.
+    if (!payment) return NextResponse.json({ ok: true });
+    const result = await recordFeePayment(payment);
+    if (result === "mismatch") console.error(`Paystack payment ${payment.reference} does not match its application`);
     return NextResponse.json({ ok: true });
-  } catch {
-    console.error("Paid eligibility review delivery failed");
+  } catch (error) {
+    console.error("Paystack webhook processing failed", error);
     return NextResponse.json({ ok: false }, { status: 502 });
   }
 }

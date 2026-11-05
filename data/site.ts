@@ -69,7 +69,7 @@ export const siteConfig = {
 
 export type SiteConfig = typeof siteConfig;
 
-/** Application fee charged (via Paystack) before an eligibility review is submitted. */
+/** Fee per application, paid (via Paystack) in the student portal before the application is submitted. */
 export const applicationFee = { amount: 40, currency: "USD", label: "$40" };
 
 /** Standard compliance disclaimer – reused across the site. */

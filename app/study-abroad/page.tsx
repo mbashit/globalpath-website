@@ -24,7 +24,7 @@ const stages = [
   { id: "program", title: "Choosing your programme", text: "Match programmes to your previous studies and career goals. Some countries require a foundation or preparatory year first; we tell you early if that applies." },
   { id: "requirements", title: "Understanding admission requirements", text: "Entry rules vary: minimum grades, WAEC/NECO subject combinations, language tests, portfolios or entrance exams. We review these against your profile." },
   { id: "documents", title: "Preparing documents", text: "Certificates, transcripts, passport, CV, statement of purpose and references. We give you a checklist and arrange translations where needed." },
-  { id: "applying", title: "Applying to universities", text: "We help you organise and submit complete applications and keep track of deadlines and portal messages." },
+  { id: "applying", title: "Applying to universities", text: `We help you organise and submit complete applications and keep track of deadlines and portal messages. Our application fee is ${applicationFee.label} per application.` },
   { id: "offer", title: "Receiving an offer", text: "We explain the conditions in your offer letter, deposits, deadlines and what to do before accepting." },
   { id: "visa", title: "Visa preparation", text: "Once admitted, we guide you through the visa checklist, financial documentation and interview preparation for your destination." },
   { id: "departure", title: "Pre-departure preparation", text: "Accommodation, travel, insurance, what to pack and what to do in your first week. You leave knowing what to expect." },
@@ -38,7 +38,7 @@ export default function StudyAbroadPage() {
         intro="Understand the steps from choosing a country to preparing for travel, and request guidance for the stages you need help with."
         crumbs={[{ label: "Study Abroad" }]}
       >
-        <ButtonLink href="#eligibility">Request an Eligibility Review · {applicationFee.label}</ButtonLink>
+        <ButtonLink href="#eligibility">Request an Eligibility Review</ButtonLink>
         <ButtonLink href="/destinations" variant="ghostLight">Explore Study Destinations</ButtonLink>
       </PageHero>
 
@@ -75,7 +75,7 @@ export default function StudyAbroadPage() {
                 </div>
                 {(i === 3 || i === 7) && (
                   <div className="mt-5 pl-10">
-                    <ButtonLink href="#eligibility" variant="outline" className="min-h-[44px] py-2 text-sm">Request an Eligibility Review · {applicationFee.label}</ButtonLink>
+                    <ButtonLink href="#eligibility" variant="outline" className="min-h-[44px] py-2 text-sm">Request an Eligibility Review</ButtonLink>
                   </div>
                 )}
               </li>
@@ -91,13 +91,10 @@ export default function StudyAbroadPage() {
               title="Request an eligibility review"
               intro="Tell us about your studies and plans. An adviser will review your profile and contact you with realistic options and next steps."
             />
-            <p className="mt-6 text-ink-muted">
-              <strong className="text-ink">Application fee: {applicationFee.label}.</strong> After you submit the form you will be taken to Paystack to pay securely by card or bank transfer. Your request is sent to our team once payment is confirmed.
-            </p>
             <Notice className="mt-8">{decisionDisclaimer}</Notice>
           </div>
           <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-line md:p-10">
-            <ContactForm fields={eligibilityFields} formType="eligibility-review" submitLabel={`Continue to Pay ${applicationFee.label}`} successTitle="Eligibility review requested" />
+            <ContactForm fields={eligibilityFields} formType="eligibility-review" submitLabel="Request an Eligibility Review" successTitle="Eligibility review requested" />
           </div>
         </div>
       </Section>

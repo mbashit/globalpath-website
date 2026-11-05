@@ -6,7 +6,9 @@ import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { DOCUMENT_BUCKET } from "@/lib/supabase/config";
 import { requireUser } from "@/lib/portal/auth";
-import { ALLOWED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, graduationStatuses, languageTests, qualificationLevels } from "@/lib/portal/constants";
+import { ALLOWED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, editableApplicationStatuses, graduationStatuses, languageTests, qualificationLevels } from "@/lib/portal/constants";
+import { initializeFeePayment, isPaystackConfigured } from "@/lib/paystack";
+import { siteConfig } from "@/data/site";
 import { fileProblem, scanFile, type ScanResult } from "@/lib/portal/file-security";
 import { friendlyDbError, isUuid, isoDate, optional, passwordIssues, str } from "@/lib/portal/validation";
 import { rateLimited } from "@/lib/portal/rate-limit";
@@ -193,6 +195,43 @@ export async function applicationStatusAction(_prev: ActionState, form: FormData
   }
   revalidatePath("/portal", "layout");
   return saved(intent === "submit" ? "Submitted to GlobalPath for internal review." : intent === "withdraw" ? "Application withdrawn." : "Returned to draft. You can edit it again.");
+}
+
+/**
+ * Starts the Paystack checkout for one application's fee. The same readiness
+ * checks as submit_application run first, so students never pay for an
+ * application that cannot be submitted yet. The database still enforces
+ * that a recorded payment exists before submission.
+ */
+export async function payApplicationFeeAction(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const { supabase, user } = await requireUser("/portal/applications");
+  const id = str(form, "id", 36);
+  if (!isUuid(id)) return { error: "Application not found." };
+  if (!isPaystackConfigured) return { error: "Online payment is not available yet. Please contact GlobalPath on WhatsApp to pay your application fee." };
+  if (await rateLimited("pay", 10, 10 * 60_000)) return { error: "Too many attempts. Please wait a few minutes and try again." };
+
+  const [{ data: app }, { count: attachments }, { data: paid }] = await Promise.all([
+    supabase.from("applications").select("id, status, course_id").eq("id", id).eq("student_id", user.id).maybeSingle(),
+    supabase.from("application_documents").select("document_id", { count: "exact", head: true }).eq("application_id", id),
+    supabase.from("application_payments").select("id").eq("application_id", id).maybeSingle(),
+  ]);
+  if (!app || !editableApplicationStatuses.includes(app.status)) return { error: "This application cannot be paid for right now." };
+  if (paid) return { error: "The fee for this application is already paid. You can submit it now." };
+  if (!app.course_id) return { error: "Choose a programme before paying." };
+  if (!attachments) return { error: "Attach at least one document before paying and submitting." };
+
+  let checkoutUrl: string;
+  try {
+    checkoutUrl = await initializeFeePayment(user.email ?? "", `${siteConfig.url}/portal/applications/${id}/payment`, {
+      kind: "application_fee",
+      applicationId: id,
+      studentId: user.id,
+    });
+  } catch (error) {
+    console.error("Paystack initialisation failed", error);
+    return { error: "Payment could not be started. Please try again in a few minutes." };
+  }
+  redirect(checkoutUrl);
 }
 
 export async function deleteApplicationAction(form: FormData) {

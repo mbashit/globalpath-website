@@ -22,11 +22,12 @@ export default async function AdminApplicationPage({ params }: { params: Promise
   if (!data) notFound();
   const app = data as Application & { profiles: { id: string; first_name: string; last_name: string; applicant_ref: string } };
 
-  const [{ data: links }, { data: history }, { data: reqs }, { data: cats }] = await Promise.all([
+  const [{ data: links }, { data: history }, { data: reqs }, { data: cats }, { data: payment }] = await Promise.all([
     supabase.from("application_documents").select("documents(*)").eq("application_id", id),
     supabase.from("application_status_history").select("from_status, to_status, note, created_at, changed_by").eq("application_id", id).order("created_at", { ascending: false }),
     app.degree_level ? supabase.from("document_requirements").select("category, required").eq("degree_level", app.degree_level) : Promise.resolve({ data: [] }),
     supabase.from("document_categories").select("code, label"),
+    supabase.from("application_payments").select("reference, amount_minor, currency, paid_at").eq("application_id", id).maybeSingle(),
   ]);
   const docs = ((links ?? []) as unknown as { documents: DocumentRow }[]).map((l) => l.documents).filter(Boolean);
   const label = (code: string) => (cats ?? []).find((c) => c.code === code)?.label ?? code;
@@ -54,6 +55,12 @@ export default async function AdminApplicationPage({ params }: { params: Promise
           <Card title="Student notes">
             <p className="whitespace-pre-line text-sm text-ink">{app.student_notes || "—"}</p>
             <p className="mt-2 text-sm text-ink-muted">Intake: {app.intake || "—"} · Submitted {formatDate(app.submitted_at, true)}</p>
+            <p className="mt-1 text-sm text-ink-muted">
+              Application fee:{" "}
+              {payment
+                ? `paid ${(payment.amount_minor / 100).toFixed(2)} ${payment.currency} on ${formatDate(payment.paid_at, true)} (Paystack ref ${payment.reference})`
+                : "not paid"}
+            </p>
           </Card>
           <Card title="Attached documents">
             {missing.length > 0 && (

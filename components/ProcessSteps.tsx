@@ -1,9 +1,11 @@
+import { applicationFee } from "@/data/site";
+
 export type Step = { title: string; text: string };
 
 export const defaultSteps: Step[] = [
   { title: "Consultation", text: "Tell us your preferred country, course, budget and goals." },
   { title: "Eligibility review", text: "We review your academic profile and documentation." },
-  { title: "Application preparation", text: "Our team helps organise and prepare your applications." },
+  { title: "Application preparation", text: `Our team helps organise and prepare your applications (${applicationFee.label} per application).` },
   { title: "Submission & visa support", text: "We guide you through admission and visa documentation." },
   { title: "Pre-departure support", text: "Get help booking your flight, finding accommodation and preparing to travel." },
 ];

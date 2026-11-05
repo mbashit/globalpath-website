@@ -19,7 +19,7 @@ import { destinations } from "@/data/destinations";
 import { publishedTestimonials, testimonials } from "@/data/testimonials";
 import { homeFaqPreview } from "@/data/faqs";
 import { images } from "@/data/images";
-import { applicationFee, fundsIntegrityNotice, siteConfig } from "@/data/site";
+import { fundsIntegrityNotice, siteConfig } from "@/data/site";
 import { buildMetadata, baseKeywords } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -90,7 +90,7 @@ export default function HomePage() {
           <ProcessSteps />
         </Reveal>
         <div className="mt-12 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/study-abroad#eligibility">Check Your Eligibility · {applicationFee.label}</ButtonLink>
+          <ButtonLink href="/study-abroad#eligibility">Check Your Eligibility</ButtonLink>
           <ButtonLink href="/book-consultation" variant="outline">Talk to an Adviser</ButtonLink>
         </div>
       </Section>

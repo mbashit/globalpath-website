@@ -96,7 +96,8 @@ export const serviceCategories: ServiceCategory[] = [
       "Offer-letter guidance",
       "Enrolment support",
     ],
-    cta: { label: `Check your eligibility · ${applicationFee.label}`, href: "/study-abroad#eligibility" },
+    note: `Application fee: ${applicationFee.label} per application, paid securely in your student portal before it is submitted. The eligibility review is free.`,
+    cta: { label: "Check your eligibility", href: "/study-abroad#eligibility" },
   },
   {
     id: "visa",

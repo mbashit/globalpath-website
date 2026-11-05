@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Alert, Card, EmptyState, PageHeader, StatusBadge, TableWrap, buttonClass, tdClass, thClass } from "@/components/portal/ui";
+import { applicationFee } from "@/data/site";
 import { requireUser } from "@/lib/portal/auth";
 import { applicationStatuses, degreeLevels, formatDate } from "@/lib/portal/constants";
 import type { Application } from "@/lib/portal/types";
@@ -20,7 +21,7 @@ export default async function ApplicationsPage() {
     <div className="grid gap-6">
       <PageHeader
         title="My applications"
-        intro="Prepare each application with GlobalPath, attach your documents and submit it for GlobalPath's internal review."
+        intro={`Prepare each application with GlobalPath, attach your documents and submit it for GlobalPath's internal review. The application fee is ${applicationFee.label} per application.`}
         actions={
           <Link href="/portal/applications/new" className={buttonClass.primary}>
             <Plus className="h-4 w-4" aria-hidden="true" /> New application

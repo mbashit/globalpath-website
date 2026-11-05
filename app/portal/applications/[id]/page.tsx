@@ -4,8 +4,10 @@ import { CheckCircle2, Circle, Paperclip, X } from "lucide-react";
 import { ActionForm, ConfirmSubmit, SubmitButton } from "@/components/portal/forms";
 import { Uploader } from "@/components/portal/Uploader";
 import { Alert, Card, Field, PageHeader, StatusBadge, TextAreaField, buttonClass } from "@/components/portal/ui";
-import { applicationStatusAction, deleteApplicationAction, setAttachmentAction, updateApplicationAction } from "../../actions";
+import { applicationStatusAction, deleteApplicationAction, payApplicationFeeAction, setAttachmentAction, updateApplicationAction } from "../../actions";
 import { requireUser } from "@/lib/portal/auth";
+import { isPaystackConfigured } from "@/lib/paystack";
+import { applicationFee } from "@/data/site";
 import { applicationStatuses, documentStatuses, editableApplicationStatuses, formatDate } from "@/lib/portal/constants";
 import { isUuid } from "@/lib/portal/validation";
 import type { Application, DocumentCategory, DocumentRow } from "@/lib/portal/types";
@@ -22,12 +24,13 @@ export default async function ApplicationPage({ params, searchParams }: { params
   if (!appData) notFound();
   const app = appData as Application;
 
-  const [{ data: links }, { data: docs }, { data: categories }, { data: requirements }, { data: history }] = await Promise.all([
+  const [{ data: links }, { data: docs }, { data: categories }, { data: requirements }, { data: history }, { data: payment }] = await Promise.all([
     supabase.from("application_documents").select("document_id").eq("application_id", id),
     supabase.from("documents").select("*").eq("owner_id", user.id).not("current_version_id", "is", null).order("created_at", { ascending: false }),
     supabase.from("document_categories").select("*").eq("active", true).order("sort_order"),
     app.degree_level ? supabase.from("document_requirements").select("category, required, notes").eq("degree_level", app.degree_level) : Promise.resolve({ data: [] }),
     supabase.from("application_status_history").select("from_status, to_status, note, created_at").eq("application_id", id).order("created_at", { ascending: false }),
+    supabase.from("application_payments").select("reference, paid_at").eq("application_id", id).maybeSingle(),
   ]);
 
   const attachedIds = new Set((links ?? []).map((l) => l.document_id));
@@ -38,10 +41,21 @@ export default async function ApplicationPage({ params, searchParams }: { params
   const catLabel = (code: string) => cats.find((c) => c.code === code)?.label ?? code;
   const reqs = (requirements ?? []) as { category: string; required: boolean; notes: string | null }[];
   const editable = editableApplicationStatuses.includes(app.status);
+  const paid = Boolean(payment);
+  const notices: Record<string, { tone: "success" | "info" | "warn" | "danger"; text: string }> = {
+    created: { tone: "success", text: `Application created. Attach your documents, then pay the ${applicationFee.label} application fee to submit it to GlobalPath.` },
+    "paid-submitted": { tone: "success", text: "Payment received. Your application has been submitted to GlobalPath." },
+    paid: { tone: "success", text: "Payment received. Review your application and submit it when it is ready." },
+    "payment-failed": { tone: "danger", text: "We could not confirm that payment. If money left your account, message us with your payment reference; otherwise try again." },
+    "payment-pending": { tone: "warn", text: "Your payment is still being confirmed. Refresh this page in a minute; contact us if it does not update." },
+    "paid-twice": { tone: "warn", text: "This application was already paid for, so your latest payment was recorded separately. GlobalPath will contact you about a refund." },
+    "payment-unavailable": { tone: "warn", text: "Online payment is not available right now. Please contact GlobalPath." },
+  };
+  const shown = notice ? notices[notice] : undefined;
 
   return (
     <div className="grid gap-6">
-      {notice === "created" && <Alert tone="success">Application created. Attach your documents, then submit it to GlobalPath.</Alert>}
+      {shown && <Alert tone={shown.tone}>{shown.text}</Alert>}
       <PageHeader
         title={app.programme_snapshot || "Application"}
         intro={
@@ -135,8 +149,18 @@ export default async function ApplicationPage({ params, searchParams }: { params
 
         <div className="grid content-start gap-6">
           <Card title="Actions">
+            <div className="mb-4 rounded-xl bg-canvas p-4 text-sm">
+              <p className="font-semibold text-ink">Application fee: {applicationFee.label}</p>
+              {paid ? (
+                <p className="mt-1 text-ink-muted">
+                  Paid{payment?.paid_at ? ` on ${formatDate(payment.paid_at)}` : ""} · ref {payment?.reference}
+                </p>
+              ) : (
+                <p className="mt-1 text-ink-muted">Charged once per application, paid securely with Paystack before it is submitted. Resubmitting after corrections is free.</p>
+              )}
+            </div>
             <div className="grid gap-3">
-              {editable && (
+              {editable && paid && (
                 <ActionForm action={applicationStatusAction}>
                   <input type="hidden" name="id" value={id} />
                   <input type="hidden" name="intent" value="submit" />
@@ -144,6 +168,18 @@ export default async function ApplicationPage({ params, searchParams }: { params
                     {app.status === "draft" ? "Submit to GlobalPath for review" : "Resubmit to GlobalPath"}
                   </SubmitButton>
                 </ActionForm>
+              )}
+              {editable && !paid && (
+                isPaystackConfigured ? (
+                  <ActionForm action={payApplicationFeeAction}>
+                    <input type="hidden" name="id" value={id} />
+                    <SubmitButton pendingText="Opening payment…" className="w-full">
+                      Pay {applicationFee.label} and submit
+                    </SubmitButton>
+                  </ActionForm>
+                ) : (
+                  <Alert tone="warn">Online payment is not available yet. Contact GlobalPath on WhatsApp to pay the application fee.</Alert>
+                )
               )}
               {app.status === "submitted" && (
                 <ActionForm action={applicationStatusAction}>
@@ -161,7 +197,7 @@ export default async function ApplicationPage({ params, searchParams }: { params
                   </ConfirmSubmit>
                 </ActionForm>
               )}
-              {app.status === "draft" && (
+              {app.status === "draft" && !paid && (
                 <form action={deleteApplicationAction}>
                   <input type="hidden" name="id" value={id} />
                   <ConfirmSubmit message="Delete this draft? Documents uploaded only for this application are also deleted." className="w-full">

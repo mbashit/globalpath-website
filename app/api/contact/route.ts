@@ -3,7 +3,6 @@ import { contactFields, consultationFields, documentFields, eligibilityFields, f
 import type { Field } from "@/data/forms";
 import { createClient } from "@/lib/supabase/server";
 import { isPortalConfigured } from "@/lib/supabase/config";
-import { initializeFeePayment, isPaystackConfigured } from "@/lib/paystack";
 
 /**
  * Form endpoint used by every form on the site.
@@ -194,22 +193,6 @@ export async function POST(req: Request) {
     submittedAt: new Date().toISOString(),
     fields: clean,
   };
-
-  // Eligibility reviews carry the application fee: send the student to
-  // Paystack. The webhook forwards the request once payment is confirmed.
-  if (formType === "eligibility-review") {
-    if (!isPaystackConfigured) {
-      console.error("PAYSTACK_SECRET_KEY is not set; eligibility review cannot take payment.");
-      return NextResponse.json({ ok: false, error: "Payment not configured" }, { status: 503 });
-    }
-    try {
-      const paymentUrl = await initializeFeePayment(clean.email, payload);
-      return NextResponse.json({ ok: true, paymentUrl });
-    } catch (error) {
-      console.error("Paystack initialisation failed", error);
-      return NextResponse.json({ ok: false, error: "Payment could not be started" }, { status: 502 });
-    }
-  }
 
   const forwardUrl = process.env.FORM_FORWARD_URL;
   if (!forwardUrl) {

@@ -211,12 +211,30 @@ await as(A, "aal1", async () => {
   ok("one document reused in two applications", (await rows(`select * from public.application_documents where document_id = $1`, [docA])).length === 2);
   const e2 = await fails(`update public.applications set status = 'review_completed' where id = $1`, [appA.id]);
   ok("student cannot set application status directly", e2 && /permission denied/.test(e2), e2);
+  const eFee = await fails(`select public.submit_application($1)`, [appA.id]);
+  ok("submit requires the application fee", eFee && /application fee/.test(eFee), eFee);
+  const ePay = await fails(`insert into public.application_payments (application_id, student_id, reference, amount_minor, currency) values ($1, $2, 'fake-ref', 4000, 'USD')`, [appA.id, A]);
+  ok("student cannot record a payment", ePay && /permission denied/.test(ePay), ePay);
+});
+// Only the server (service role, after Paystack confirms) records payments.
+await as("service", null, async () => {
+  await db.query(`insert into public.application_payments (application_id, student_id, reference, amount_minor, currency) values ($1, $2, 'ps-ref-1', 4000, 'USD')`, [appA.id, A]);
+  await db.query(`insert into public.application_payments (application_id, student_id, reference, amount_minor, currency) values ($1, $2, 'ps-ref-2', 4000, 'USD')`, [appA2.id, A]);
+  const eDup = await fails(`insert into public.application_payments (application_id, student_id, reference, amount_minor, currency) values ($1, $2, 'ps-ref-3', 4000, 'USD')`, [appA.id, A]);
+  ok("one payment per application", eDup && /duplicate|unique/.test(eDup), eDup);
+});
+await as(A, "aal1", async () => {
+  ok("student sees own payment", (await rows(`select reference from public.application_payments where application_id = $1`, [appA.id])).length === 1);
+  ok("paid draft cannot be deleted", (await rows(`delete from public.applications where id = $1 returning id`, [appA2.id])).length === 0);
+  const eUpd = await fails(`update public.application_payments set amount_minor = 1 where application_id = $1`, [appA.id]);
+  ok("student cannot change a payment", eUpd && /permission denied/.test(eUpd), eUpd);
   await db.query(`select public.submit_application($1)`, [appA.id]);
   ok("submit works", (await rows(`select status from public.applications where id = $1`, [appA.id]))[0].status === "submitted");
   ok("submitted application locked for edits", (await rows(`update public.applications set intake = 'x' where id = $1 returning id`, [appA.id])).length === 0);
 });
 await as(B, "aal1", async () => {
   ok("B cannot see A's applications", (await rows(`select id from public.applications`)).length === 0);
+  ok("B cannot see A's payments", (await rows(`select id from public.application_payments`)).length === 0);
   const bdoc = (await rows(`select * from public.begin_document_upload(null, 'cv', 'CV', null, 'cv.pdf', 'application/pdf', 100)`))[0];
   const e = await fails(`insert into public.application_documents (application_id, document_id) values ($1, $2)`, [appA2.id, bdoc.document_id]);
   ok("B cannot attach to A's application", e && /row-level security/.test(e), e);

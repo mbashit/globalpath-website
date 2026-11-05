@@ -6,6 +6,7 @@ import { requireUser } from "@/lib/portal/auth";
 import { degreeLevels } from "@/lib/portal/constants";
 import { isUuid } from "@/lib/portal/validation";
 import type { Course } from "@/lib/portal/types";
+import { applicationFee } from "@/data/site";
 
 export const metadata = { title: "New Application" };
 
@@ -22,7 +23,10 @@ export default async function NewApplicationPage({ searchParams }: { searchParam
 
   return (
     <div className="grid gap-6">
-      <PageHeader title="New application" intro="Create a preparation record for one programme. You can attach documents after it is created." />
+      <PageHeader
+        title="New application"
+        intro={`Create a preparation record for one programme. You can attach documents after it is created. Each application has a ${applicationFee.label} fee, paid when you submit it to GlobalPath.`}
+      />
       <Card>
         {courses.length === 0 ? (
           <EmptyState title="No verified programmes are available yet">

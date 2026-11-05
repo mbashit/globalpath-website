@@ -132,12 +132,6 @@ export function ContactForm({
         }),
       });
       if (!res.ok) throw new Error(String(res.status));
-      // Fee-paying forms: continue to the hosted payment page.
-      const { paymentUrl } = (await res.json().catch(() => ({}))) as { paymentUrl?: string };
-      if (paymentUrl?.startsWith("https://")) {
-        window.location.assign(paymentUrl);
-        return;
-      }
       setStatus("success");
     } catch {
       setStatus("error");

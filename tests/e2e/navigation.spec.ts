@@ -74,9 +74,11 @@ test.describe("visitor navigation", () => {
       await expect(page, path).toHaveURL(new RegExp(`${path}$`));
       await expect(page.getByLabel("Full name"), path).toBeVisible();
     }
+    // The eligibility review is free; the $40 fee applies per application in the portal.
     await page.goto("/study-abroad#eligibility");
-    await expect(page.getByText("Application fee: $40.")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Continue to Pay $40" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Request an Eligibility Review" })).toBeVisible();
+    await expect(page.getByText("Continue to Pay")).toHaveCount(0);
+    await expect(page.getByText("$40 per application").first()).toBeAttached();
   });
 
   test("13. header and footer links all resolve", async ({ page, request }) => {
