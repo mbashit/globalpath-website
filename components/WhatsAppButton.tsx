@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { whatsappLink, whatsappMessageForPath } from "@/lib/whatsapp";
 import Link from "next/link";
 import { WhatsAppGlyph } from "./SocialIcons";
+import { applicationFee } from "@/data/site";
 
 /** Floating WhatsApp button shown on every page. Message adapts to the current page. */
 export function WhatsAppButton() {
@@ -31,7 +32,7 @@ export function MobileCTABar() {
           Request a Consultation
         </Link>
         <Link href="/study-abroad#eligibility" className="flex min-h-[48px] flex-1 items-center justify-center rounded-full border-2 border-navy/15 font-semibold text-navy">
-          Check eligibility
+          Eligibility · {applicationFee.label}
         </Link>
       </div>
     </div>

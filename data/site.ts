@@ -47,8 +47,9 @@ export const siteConfig = {
   // ---- Social media -------------------------------------------
   // Paste the full profile URL between the quotes, e.g.
   //   facebook: "https://www.facebook.com/globalpatheducation",
-  // Each icon appears in the footer as soon as its URL is filled in;
-  // empty values stay hidden so the site never shows dead links.
+  // Facebook, X and Instagram always show in the footer: as a "coming soon"
+  // placeholder while empty, as a link once filled in. TikTok shows only
+  // when it has a URL.
   social: {
     facebook: "", // https://www.facebook.com/...
     x: "", // https://x.com/...

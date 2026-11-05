@@ -38,7 +38,7 @@ export default function StudyAbroadPage() {
         intro="Understand the steps from choosing a country to preparing for travel, and request guidance for the stages you need help with."
         crumbs={[{ label: "Study Abroad" }]}
       >
-        <ButtonLink href="#eligibility">Request an Eligibility Review</ButtonLink>
+        <ButtonLink href="#eligibility">Request an Eligibility Review · {applicationFee.label}</ButtonLink>
         <ButtonLink href="/destinations" variant="ghostLight">Explore Study Destinations</ButtonLink>
       </PageHero>
 
@@ -75,7 +75,7 @@ export default function StudyAbroadPage() {
                 </div>
                 {(i === 3 || i === 7) && (
                   <div className="mt-5 pl-10">
-                    <ButtonLink href="#eligibility" variant="outline" className="min-h-[44px] py-2 text-sm">Request an Eligibility Review</ButtonLink>
+                    <ButtonLink href="#eligibility" variant="outline" className="min-h-[44px] py-2 text-sm">Request an Eligibility Review · {applicationFee.label}</ButtonLink>
                   </div>
                 )}
               </li>

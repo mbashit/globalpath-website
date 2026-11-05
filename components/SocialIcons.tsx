@@ -21,21 +21,32 @@ const paths = {
 };
 
 export function SocialLinks({ className = "" }: { className?: string }) {
+  // Facebook, X and Instagram always show; without a URL they are a non-clickable "coming soon" placeholder.
+  const alwaysShown = new Set(["facebook", "x", "instagram"]);
   const entries = (Object.keys(paths) as (keyof typeof paths)[])
     .map((k) => ({ key: k, url: siteConfig.social[k] }))
-    .filter((e) => e.url); // empty URLs in data/site.ts are hidden
-  const labels = { facebook: "GlobalPath on Facebook", x: "GlobalPath on X", instagram: "GlobalPath on Instagram", tiktok: "GlobalPath on TikTok" };
+    .filter((e) => e.url || alwaysShown.has(e.key));
+  const labels = { facebook: "Facebook", x: "X", instagram: "Instagram", tiktok: "TikTok" };
   const base =
     "grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-brandorange hover:text-navy-ink";
+  const icon = (key: keyof typeof paths) => (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+      <path d={paths[key]} />
+    </svg>
+  );
   return (
     <ul className={`flex flex-wrap gap-2 ${className}`}>
       {entries.map((e) => (
         <li key={e.key}>
-          <a href={e.url} target="_blank" rel="noopener noreferrer" aria-label={labels[e.key]} className={base}>
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
-              <path d={paths[e.key]} />
-            </svg>
-          </a>
+          {e.url ? (
+            <a href={e.url} target="_blank" rel="noopener noreferrer" aria-label={`GlobalPath on ${labels[e.key]}`} className={base}>
+              {icon(e.key)}
+            </a>
+          ) : (
+            <span role="img" aria-label={`${labels[e.key]} (coming soon)`} title={`${labels[e.key]}: coming soon`} className="grid h-11 w-11 cursor-default place-items-center rounded-full bg-white/10 text-white/60">
+              {icon(e.key)}
+            </span>
+          )}
         </li>
       ))}
       <li>

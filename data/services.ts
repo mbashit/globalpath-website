@@ -3,6 +3,7 @@
  * `icon` must be a key of the icon map in components/Icon.tsx.
  */
 import type { IconName } from "@/components/Icon";
+import { applicationFee } from "./site";
 
 export type ServiceSummary = {
   title: string;
@@ -95,7 +96,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Offer-letter guidance",
       "Enrolment support",
     ],
-    cta: { label: "Check your eligibility", href: "/study-abroad#eligibility" },
+    cta: { label: `Check your eligibility · ${applicationFee.label}`, href: "/study-abroad#eligibility" },
   },
   {
     id: "visa",

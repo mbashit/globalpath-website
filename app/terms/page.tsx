@@ -7,7 +7,6 @@ export const metadata = buildMetadata({ title: "Terms & Conditions", description
 export default function TermsPage() {
   return (
     <LegalPage title="Terms & Conditions">
-      <p>These draft terms describe the general information on this website and the intended approach to consultation requests. Confirm the registered service-provider name, governing jurisdiction and final client agreement with a qualified lawyer before relying on them as a contract.</p>
       <h2>Our services</h2>
       <p>
         The services described on this website may include guidance on international education, university applications and admission, document preparation, flight booking and finding accommodation. The actual scope, fees and timelines for any engagement should be agreed in writing before paid work begins.
