@@ -5,6 +5,7 @@ import { footerLinks } from "@/data/navigation";
 import { destinations } from "@/data/destinations";
 import { siteConfig, decisionDisclaimer } from "@/data/site";
 import { whatsappLink } from "@/lib/whatsapp";
+import { isPortalConfigured } from "@/lib/supabase/config";
 
 function Col({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
@@ -32,6 +33,18 @@ export function Footer() {
           <Logo inverted />
           <p className="mt-5 text-white/70">{siteConfig.description}</p>
           <SocialLinks className="mt-6" />
+          {isPortalConfigured && (
+            <nav aria-label="Student portal" className="mt-8">
+              <h2 className="font-display text-base font-semibold text-white">Student Portal</h2>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+                {footerLinks.portal.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="inline-flex min-h-[36px] items-center text-white/70 transition-colors hover:text-gold">{l.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">

@@ -3,20 +3,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { startTransition, useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { mainNav } from "@/data/navigation";
 import { siteConfig } from "@/data/site";
 import { whatsappLink, whatsappMessageForPath } from "@/lib/whatsapp";
 import { WhatsAppGlyph } from "./SocialIcons";
+import { AccountLinks, MobileAccountLinks, useAccount } from "./AccountLinks";
 import { cn } from "@/lib/cn";
 
 export function Navbar() {
   const pathname = usePathname();
+  const account = useAccount();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname?.startsWith(href));
 
@@ -35,11 +39,13 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock scroll + Escape to close on mobile
+  // Lock scroll + Escape to close on mobile; move focus into the menu when it opens
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) mobileMenuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        if (open) menuButtonRef.current?.focus();
         setOpen(false);
         setServicesOpen(false);
       }
@@ -78,7 +84,7 @@ export function Navbar() {
 
         {/* Desktop navigation */}
         <ul className="hidden items-center gap-1 xl:flex">
-          {mainNav.map((item) =>
+          {mainNav.filter((item) => !item.menuOnly).map((item) =>
             item.children ? (
               <li key={item.href} className="relative" ref={dropdownRef}>
                 <button
@@ -127,22 +133,26 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <Link
+            href="/book-consultation"
+            aria-current={pathname === "/book-consultation" ? "page" : undefined}
+            className="hidden min-h-[44px] items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[0.93rem] font-semibold text-ink-muted underline decoration-brandorange decoration-2 underline-offset-[6px] transition-colors hover:text-navy lg:inline-flex"
+          >
+            <CalendarCheck className="hidden h-4 w-4 text-brandorange 2xl:block" aria-hidden="true" />
+            Request a Consultation
+          </Link>
           <a
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat with us on WhatsApp"
-            className="grid h-11 w-11 place-items-center rounded-full bg-[#1FAF55] text-white transition-colors hover:bg-[#178a43]"
+            className="hidden h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1FAF55] text-white transition-colors hover:bg-[#178a43] sm:grid"
           >
             <WhatsAppGlyph />
           </a>
-          <Link
-            href="/book-consultation"
-            className="hidden min-h-[44px] items-center rounded-full bg-brandorange px-5 text-[0.93rem] font-semibold text-navy-ink transition-colors hover:bg-gold sm:inline-flex"
-          >
-            Request a Consultation
-          </Link>
+          <AccountLinks account={account} />
           <button
+            ref={menuButtonRef}
             type="button"
             className="grid h-11 w-11 place-items-center rounded-full border border-line text-navy xl:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -158,11 +168,15 @@ export function Navbar() {
       {/* Mobile navigation */}
       <div
         id="mobile-menu"
+        ref={mobileMenuRef}
         className={cn(
           "absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-72px)] overflow-y-auto bg-white transition-[opacity,transform] duration-300 xl:hidden",
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
         )}
       >
+        <div className="container">
+          <MobileAccountLinks account={account} />
+        </div>
         <ul className="container flex flex-col py-4">
           {mainNav.map((item) => (
             <li key={item.href} className="border-b border-line last:border-0">

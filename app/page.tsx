@@ -13,6 +13,7 @@ import { Notice } from "@/components/Notice";
 import { Icon, type IconName } from "@/components/Icon";
 import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
+import { StudentPortalSection } from "@/components/StudentPortalSection";
 import { homeServices } from "@/data/services";
 import { destinations } from "@/data/destinations";
 import { publishedTestimonials, testimonials } from "@/data/testimonials";
@@ -22,9 +23,9 @@ import { fundsIntegrityNotice, siteConfig } from "@/data/site";
 import { buildMetadata, baseKeywords } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Study Abroad, Visa Documentation & Relocation Support for African Students",
+  title: "Study Abroad, Admission & Visa Documentation Support for African Students",
   description:
-    "Professional guidance for Nigerian and African students and families: university admission, visa documentation, proof of funds guidance, translation and relocation for Germany, Canada, the UK, the USA and Russia.",
+    "Professional guidance for Nigerian and African students and families: university applications and admission, visa documentation, proof of funds guidance, translation, flight booking and accommodation for Germany, Canada, the UK, the USA and Russia.",
   path: "/",
   keywords: [...baseKeywords, "study in Germany from Nigeria", "Canada study visa support", "proof of funds guidance"],
 });
@@ -93,6 +94,8 @@ export default function HomePage() {
           <ButtonLink href="/book-consultation" variant="outline">Talk to an Adviser</ButtonLink>
         </div>
       </Section>
+
+      <StudentPortalSection />
 
       {/* Destinations */}
       <Section tone="canvas" id="destinations">

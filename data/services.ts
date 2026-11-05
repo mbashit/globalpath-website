@@ -62,11 +62,11 @@ export const homeServices: ServiceSummary[] = [
     href: "/destinations/russia",
   },
   {
-    title: "Relocation Support",
+    title: "Flights & Accommodation",
     icon: "luggage",
     summary:
-      "Pre-departure checklists, accommodation guidance and arrival information so your first weeks abroad feel manageable.",
-    href: "/services#relocation",
+      "Help booking your flight and, when needed, finding suitable accommodation, plus pre-departure checklists for your first weeks abroad.",
+    href: "/services#travel",
   },
 ];
 
@@ -139,19 +139,18 @@ export const serviceCategories: ServiceCategory[] = [
     cta: { label: "Get document support", href: "/document-services" },
   },
   {
-    id: "relocation",
-    title: "Relocation",
+    id: "travel",
+    title: "Flights & accommodation",
     icon: "luggage",
-    intro: "Discuss practical preparation for travel and your first days after arrival.",
+    intro: "Practical help getting to your university: booking your flight and, when you need it, finding somewhere to live.",
     items: [
+      "Flight booking assistance",
+      "Help finding accommodation",
       "Pre-departure checklist",
-      "Accommodation guidance",
-      "Travel preparation",
       "Arrival information",
       "University registration guidance",
-      "Local settlement information",
     ],
-    cta: { label: "Talk to an adviser", href: "/book-consultation?service=relocation" },
+    cta: { label: "Talk to an adviser", href: "/book-consultation?service=travel" },
   },
 ];
 
@@ -160,5 +159,5 @@ export const consultationTypes = [
   { value: "visa", label: "Visa Documentation Review" },
   { value: "financial", label: "Financial Documentation Consultation" },
   { value: "documents", label: "Translation / Documentation" },
-  { value: "relocation", label: "Relocation Consultation" },
+  { value: "travel", label: "Flight & Accommodation Help" },
 ];

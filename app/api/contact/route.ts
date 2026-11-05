@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { contactFields, consultationFields, documentFields, eligibilityFields, financialReviewFields } from "@/data/forms";
 import type { Field } from "@/data/forms";
+import { createClient } from "@/lib/supabase/server";
+import { isPortalConfigured } from "@/lib/supabase/config";
 import { initializeFeePayment, isPaystackConfigured } from "@/lib/paystack";
 
 /**
@@ -109,6 +111,28 @@ function validateData(fields: Field[], data: Record<string, unknown>): Record<st
   return clean;
 }
 
+/**
+ * Student portal: if the person submitting is signed in, keep a copy of the
+ * consultation request in their own account. Visitors are unaffected, and
+ * requests are never linked to an account by matching email addresses.
+ */
+async function recordForSignedInStudent(fields: Record<string, string>) {
+  if (!isPortalConfigured) return;
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+    if (!data.user?.email_confirmed_at) return;
+    await supabase.from("consultation_requests").insert({
+      service: fields.service,
+      destination: fields.destination || null,
+      preferred_date: fields.preferredDate || null,
+      message: fields.message || null,
+    });
+  } catch {
+    console.error("Consultation request could not be added to the student portal");
+  }
+}
+
 export async function POST(req: Request) {
   if (req.headers.get("content-type")?.split(";")[0] !== "application/json") {
     return NextResponse.json({ ok: false, error: "JSON required" }, { status: 415 });
@@ -212,6 +236,7 @@ export async function POST(req: Request) {
       signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) throw new Error("Form forward failed");
+    if (formType === "consultation") await recordForSignedInStudent(clean);
     return NextResponse.json({ ok: true });
   } catch {
     console.error("Form delivery failed");

@@ -4,7 +4,7 @@ import { whatsappLink } from "@/lib/whatsapp";
 
 export function CTASection({
   title = "Ready to start your journey?",
-  text = "Speak with our team and understand the next steps for your education, visa or relocation plans.",
+  text = "Speak with our team and understand the next steps for your studies, visa or travel plans.",
   whatsappMessage,
 }: {
   title?: string;

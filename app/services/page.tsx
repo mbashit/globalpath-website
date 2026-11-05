@@ -11,9 +11,9 @@ import { decisionDisclaimer } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Services: Admissions, Visa Support, Financial Guidance, Translation & Relocation",
+  title: "Services: Admissions, Visa Support, Financial Guidance, Translation, Flights & Accommodation",
   description:
-    "University admission support, student visa documentation, proof of funds guidance, document translation and notarization coordination, and relocation support for African students and families.",
+    "University admission support, student visa documentation, proof of funds guidance, document translation and notarization coordination, flight booking and accommodation help for African students and families.",
   path: "/services",
   keywords: ["student visa documentation", "document translation for visa", "proof of funds guidance", "university admission assistance"],
 });

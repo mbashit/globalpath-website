@@ -11,7 +11,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Request a Consultation",
   description:
-    "Request an online consultation for study abroad, visa documentation, financial-document guidance, translation or relocation.",
+    "Request an online consultation for study abroad, visa documentation, financial-document guidance, translation, flights or accommodation.",
   path: "/book-consultation",
 });
 
@@ -70,6 +70,7 @@ export default function BookConsultationPage() {
                     submitLabel="Send Consultation Request"
                     successTitle="Consultation requested"
                     successText="Your request was delivered. We will contact you to discuss a suitable time; this is not a confirmed appointment."
+                    prefillFromAccount
                   />
                 </div>
               </>

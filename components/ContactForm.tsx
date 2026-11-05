@@ -38,12 +38,15 @@ export function ContactForm({
   submitLabel,
   successTitle = "Request sent",
   successText = "Thank you. Your request was delivered. We will contact you to discuss next steps.",
+  prefillFromAccount = false,
 }: {
   fields: Field[];
   formType: string;
   submitLabel: string;
   successTitle?: string;
   successText?: string;
+  /** Fill empty fields from the signed-in student's portal profile (visitors see no change). */
+  prefillFromAccount?: boolean;
 }) {
   const uid = useId();
   const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(fields.map((f) => [f.name, ""])));
@@ -70,7 +73,31 @@ export function ContactForm({
     });
   }, [fields]);
 
-  const set = (name: string, value: string) => {
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
+    if (!prefillFromAccount) return;
+    let cancelled = false;
+    fetch("/api/portal/me", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((me: Record<string, string | boolean> | null) => {
+        if (cancelled || !me?.signedIn) return;
+        setSignedIn(true);
+        setValues((prev) => {
+          const next = { ...prev };
+          fields.forEach((f) => {
+            const v = me[f.name];
+            if (typeof v === "string" && v && !next[f.name] && (!f.options || f.options.some((o) => o.value === v))) next[f.name] = v;
+          });
+          return next;
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [fields, prefillFromAccount]);
+
+  const set =(name: string, value: string) => {
     setValues((v) => ({ ...v, [name]: value }));
     if (errors[name]) setErrors((e) => ({ ...e, [name]: null }));
   };
@@ -129,6 +156,11 @@ export function ContactForm({
         <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-[#1FAF55] px-6 font-semibold text-white hover:bg-[#178a43]">
           Message us on WhatsApp now
         </a>
+        {signedIn && (
+          <Link href="/portal/consultations" className="mt-3 block font-semibold text-navy underline underline-offset-2">
+            Return to your student portal
+          </Link>
+        )}
       </div>
     );
   }

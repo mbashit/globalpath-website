@@ -4,6 +4,9 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton, MobileCTABar } from "@/components/WhatsAppButton";
+import { PublicOnly } from "@/components/PublicOnly";
+import { authPendingScript } from "@/components/AccountLinks";
+import { isPortalConfigured } from "@/lib/supabase/config";
 import { siteConfig } from "@/data/site";
 import { baseKeywords } from "@/lib/seo";
 
@@ -49,13 +52,23 @@ const orgJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    // suppressHydrationWarning: the auth script below may set data-auth on <html> before React hydrates.
+    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+      {isPortalConfigured && (
+        <head>
+          <script dangerouslySetInnerHTML={{ __html: authPendingScript }} />
+        </head>
+      )}
       <body>
-        <Navbar />
+        <PublicOnly>
+          <Navbar />
+        </PublicOnly>
         <main id="main">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <MobileCTABar />
+        <PublicOnly>
+          <Footer />
+          <WhatsAppButton />
+          <MobileCTABar />
+        </PublicOnly>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }} />
       </body>
     </html>
