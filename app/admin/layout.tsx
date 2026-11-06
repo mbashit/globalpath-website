@@ -16,7 +16,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { supabase, role } = await requireStaff("/admin");
   const [profile, { count: queue }] = await Promise.all([
     getProfile(),
-    supabase.from("documents").select("id", { count: "exact", head: true }).eq("status", "pending_review"),
+    supabase.from("documents").select("id", { count: "exact", head: true }).eq("status", "pending_review").eq("review_unlocked", true),
   ]);
 
   const nav: ShellNavItem[] = [

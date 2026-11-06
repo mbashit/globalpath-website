@@ -143,6 +143,36 @@ await as("service", null, async () => {
   ok("finalize cannot run twice", !!e, e);
 });
 
+// --- paid review gate --------------------------------------------------
+// Staff may review a document only once it is in a paid, submitted application.
+let gateApp;
+await as("service", null, async () => {
+  const u = (await rows(`insert into public.universities (name, country, source_url, verified_on, published) values ('Gate University', 'Germany', 'https://example.org/g', current_date, true) returning id`))[0].id;
+  const c = (await rows(`insert into public.courses (university_id, name, degree_level, source_url, verified_on, published) values ($1, 'BSc Gate', 'bachelor', 'https://example.org/g/bsc', current_date, true) returning id`, [u]))[0].id;
+  gateApp = (await rows(`insert into public.applications (student_id, course_id) values ($1, $2) returning id`, [A, c]))[0].id;
+  await db.query(`insert into public.application_documents (application_id, document_id) values ($1, $2)`, [gateApp, docA]);
+});
+const unlocked = async () => (await rows(`select public.review_unlocked(d) as u from public.documents d where id = $1`, [docA]))[0].u;
+await as(M, "aal2", async () => {
+  ok("review locked while application is unpaid", (await unlocked()) === false);
+  const e = await fails(`select public.staff_review_document($1, 'under_review', null)`, [docA]);
+  ok("staff cannot review an unpaid document", e && /paid, submitted application/.test(e), e);
+});
+await as("service", null, async () => {
+  await db.query(`insert into public.application_payments (application_id, student_id, reference, amount_minor, currency) values ($1, $2, 'ps-gate', 4000, 'USD')`, [gateApp, A]);
+});
+await as(M, "aal2", async () => {
+  ok("review still locked while paid application is a draft", (await unlocked()) === false);
+});
+await as(A, "aal1", async () => {
+  await db.query(`select public.submit_application($1)`, [gateApp]);
+  const n = await rows(`select body from public.notifications where user_id = $1 and title = 'Document uploaded'`, [A]);
+  ok("upload notification no longer promises an immediate review", n.length > 0 && /once you pay for and submit/.test(n[0].body), n[0]?.body);
+});
+await as(M, "aal2", async () => {
+  ok("review unlocked once paid and submitted", (await unlocked()) === true);
+});
+
 // --- reviewer scope ----------------------------------------------------
 await as(R, "aal2", async () => {
   ok("unassigned reviewer cannot see student documents", (await rows(`select id from public.documents where id = $1`, [docA])).length === 0);
@@ -208,7 +238,8 @@ await as(A, "aal1", async () => {
   ok("submit requires a document", e1 && /Attach/.test(e1), e1);
   await db.query(`insert into public.application_documents (application_id, document_id) values ($1, $2)`, [appA.id, docA]);
   await db.query(`insert into public.application_documents (application_id, document_id) values ($1, $2)`, [appA2.id, docA]);
-  ok("one document reused in two applications", (await rows(`select * from public.application_documents where document_id = $1`, [docA])).length === 2);
+  // docA is also attached to gateApp from the paid-review section above.
+  ok("one document reused across applications", (await rows(`select * from public.application_documents where document_id = $1`, [docA])).length === 3);
   const e2 = await fails(`update public.applications set status = 'review_completed' where id = $1`, [appA.id]);
   ok("student cannot set application status directly", e2 && /permission denied/.test(e2), e2);
   const eFee = await fails(`select public.submit_application($1)`, [appA.id]);

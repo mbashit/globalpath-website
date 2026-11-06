@@ -25,11 +25,12 @@ export default async function ReviewDocumentPage({ params }: { params: Promise<{
   const { supabase, role } = await requireStaff(`/admin/documents/${id}`);
   const { data } = await supabase
     .from("documents")
-    .select("*, document_versions(*), profiles!documents_owner_id_fkey(id, first_name, last_name, applicant_ref, date_of_birth, nationality)")
+    .select("*, review_unlocked, document_versions(*), profiles!documents_owner_id_fkey(id, first_name, last_name, applicant_ref, date_of_birth, nationality)")
     .eq("id", id)
     .maybeSingle();
   if (!data) notFound();
   const doc = data as DocumentRow & {
+    review_unlocked: boolean;
     document_versions: DocumentVersion[];
     profiles: { id: string; first_name: string; last_name: string; applicant_ref: string; date_of_birth: string | null; nationality: string | null };
   };
@@ -147,7 +148,11 @@ export default async function ReviewDocumentPage({ params }: { params: Promise<{
             </ul>
           </Card>
           <Card title="Decision">
-            {current ? (
+            {!doc.review_unlocked ? (
+              <p className="text-sm text-ink-muted">
+                Waiting for payment. This document can be reviewed once the student pays for and submits an application that includes it.
+              </p>
+            ) : current ? (
               <ActionForm action={reviewDocumentAction} className="grid gap-4">
                 <input type="hidden" name="document_id" value={doc.id} />
                 <div>

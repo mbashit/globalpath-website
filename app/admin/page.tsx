@@ -13,7 +13,7 @@ export default async function AdminDashboard() {
     supabase.from("staff_roles").select("user_id"),
     count(supabase.from("profiles").select("id", { count: "exact", head: true })),
     count(supabase.from("applications").select("id", { count: "exact", head: true }).in("status", ["submitted", "under_review"])),
-    count(supabase.from("documents").select("id", { count: "exact", head: true }).in("status", ["pending_review", "under_review"])),
+    count(supabase.from("documents").select("id", { count: "exact", head: true }).in("status", ["pending_review", "under_review"]).eq("review_unlocked", true)),
     count(supabase.from("applications").select("id", { count: "exact", head: true }).in("status", ["missing_documents", "correction_required"])),
     count(supabase.from("consultation_requests").select("id", { count: "exact", head: true }).eq("status", "requested")),
     supabase
