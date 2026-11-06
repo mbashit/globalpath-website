@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CalendarCheck } from "lucide-react";
+import { ArrowRight, CalendarCheck, MessageSquareQuote } from "lucide-react";
 import { Alert, Card, PageHeader, ProgressBar, Stat, buttonClass } from "@/components/portal/ui";
 import { getProfile, requireUser } from "@/lib/portal/auth";
 import { profileCompletion } from "@/lib/portal/progress";
@@ -22,7 +22,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   }
 
   const count = (q: PromiseLike<{ count: number | null }>) => Promise.resolve(q).then((r) => r.count ?? 0);
-  const [academic, language, uploaded, verified, awaiting, corrections, applications, drafts, notifications, consultations] = await Promise.all([
+  const [academic, language, uploaded, verified, awaiting, corrections, applications, drafts, notifications, consultations, reviews] = await Promise.all([
     count(supabase.from("academic_qualifications").select("id", { count: "exact", head: true }).eq("student_id", user.id)),
     count(supabase.from("language_qualifications").select("id", { count: "exact", head: true }).eq("student_id", user.id)),
     count(supabase.from("documents").select("id", { count: "exact", head: true }).eq("owner_id", user.id).not("current_version_id", "is", null)),
@@ -33,7 +33,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     count(supabase.from("applications").select("id", { count: "exact", head: true }).eq("student_id", user.id).in("status", ["draft", "missing_documents", "correction_required"])),
     supabase.from("notifications").select("*").eq("user_id", user.id).is("read_at", null).order("created_at", { ascending: false }).limit(5),
     supabase.from("consultation_requests").select("id, service, confirmed_for").eq("user_id", user.id).eq("status", "confirmed").gte("confirmed_for", new Date().toISOString()).order("confirmed_for").limit(3),
+    supabase.from("site_testimonials").select("status").eq("submitted_by", user.id).order("created_at", { ascending: false }).limit(1),
   ]);
+  const lastReview = (reviews.data?.[0] as { status: string } | undefined)?.status;
+  const reviewNote =
+    lastReview === "published"
+      ? "Your review is on the GlobalPath website. Thank you."
+      : lastReview === "pending"
+        ? "Thank you. GlobalPath is reading your review before it goes on the website."
+        : null;
 
   const completion = profileCompletion({ profile, academicCount: academic, languageCount: language, documentCount: uploaded });
   const firstMissing = completion.checks.find((c) => !c.done);
@@ -145,6 +153,21 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           )}
         </Card>
       </div>
+
+      <section className="flex flex-col gap-4 rounded-2xl bg-white p-5 ring-1 ring-line sm:flex-row sm:items-center sm:justify-between md:p-6">
+        <div className="flex items-start gap-3">
+          <MessageSquareQuote className="mt-0.5 h-[18px] w-[18px] shrink-0 text-ink-faint" aria-hidden="true" />
+          <div>
+            <h2 className="font-display text-lg font-semibold text-ink">How is GlobalPath doing?</h2>
+            <p className="mt-1 text-ink-muted">
+              {reviewNote ?? "Leave a short review of your experience. With your permission, we may share it on our website to help other students and families."}
+            </p>
+          </div>
+        </div>
+        <Link href="/portal/share-story" className={`${reviewNote ? buttonClass.secondary : buttonClass.navy} shrink-0`}>
+          {reviewNote ? "See your reviews" : "Leave a review"}
+        </Link>
+      </section>
     </div>
   );
 }

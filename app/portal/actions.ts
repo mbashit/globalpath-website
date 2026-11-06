@@ -463,7 +463,7 @@ export async function submitStoryAction(_prev: ActionState, form: FormData): Pro
   const name = str(form, "name", 80);
   if (quote.length < 20) return { error: "Tell us a little more: at least 20 characters." };
   if (name.length < 2) return { error: "Enter the name to show, for example \"Chinedu O.\"." };
-  if (form.get("consent") !== "on") return { error: "Tick the box to let GlobalPath publish your story." };
+  if (form.get("consent") !== "on") return { error: "Tick the box to let GlobalPath publish your review." };
   const { error } = await supabase.rpc("submit_testimonial", {
     p_quote: quote,
     p_name: name,
@@ -472,5 +472,6 @@ export async function submitStoryAction(_prev: ActionState, form: FormData): Pro
   });
   if (error) return { error: friendlyDbError(error) };
   revalidatePath("/portal/share-story");
-  return saved("Thank you. GlobalPath will read your story before it appears on the website.");
+  revalidatePath("/portal");
+  return saved("Thank you. GlobalPath will read your review before it appears on the website.");
 }

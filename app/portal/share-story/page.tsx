@@ -5,7 +5,7 @@ import { formatDate, type Tone } from "@/lib/portal/constants";
 import { destinations } from "@/data/destinations";
 import { submitStoryAction } from "../actions";
 
-export const metadata = { title: "Share your story" };
+export const metadata = { title: "Leave a review" };
 
 const statusBadge: Record<string, { label: string; tone: Tone }> = {
   pending: { label: "Waiting for review", tone: "warn" },
@@ -25,12 +25,12 @@ export default async function ShareStoryPage() {
   return (
     <div className="grid gap-6">
       <PageHeader
-        title="Share your story"
-        intro="Tell other students and families how GlobalPath helped you. We read every story before it appears on the website, and we may shorten it."
+        title="Leave a review"
+        intro="Tell other students and families how GlobalPath helped you. We read every review before it appears on the website, and we may shorten it."
       />
       <Card>
         <ActionForm action={submitStoryAction} className="grid gap-4 sm:grid-cols-2" resetOnSuccess>
-          <TextAreaField label="Your story" name="quote" maxLength={800} required className="sm:col-span-2" hint="What did we help with, and how did it go? 20 to 800 characters." />
+          <TextAreaField label="Your review" name="quote" maxLength={800} required className="sm:col-span-2" hint="What did we help with, and how did it go? 20 to 800 characters." />
           <Field label="Name to show" name="name" defaultValue={suggestedName} maxLength={80} required hint="First name and initial is enough" />
           <Field label="About you" name="context" maxLength={120} optional hint={'e.g. "Master\'s student · Lagos, Nigeria"'} />
           <div>
@@ -46,15 +46,15 @@ export default async function ShareStoryPage() {
           </div>
           <label className="flex items-start gap-3 text-sm text-ink sm:col-span-2">
             <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 accent-navy" />
-            I agree that GlobalPath Education may publish this story with the name above on its website.
+            I agree that GlobalPath Education may publish this review with the name above on its website.
           </label>
           <div className="sm:col-span-2">
-            <SubmitButton variant="navy" pendingText="Sending…">Send my story</SubmitButton>
+            <SubmitButton variant="navy" pendingText="Sending…">Send my review</SubmitButton>
           </div>
         </ActionForm>
       </Card>
       {mine.length > 0 && (
-        <Card title="Stories you sent">
+        <Card title="Reviews you sent">
           <ul className="divide-y divide-line">
             {mine.map((s) => (
               <li key={s.id} className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between">
