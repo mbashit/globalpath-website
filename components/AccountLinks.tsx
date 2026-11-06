@@ -127,7 +127,7 @@ export function AccountLinks({ account }: { account: Account }) {
       <div
         id={menuId}
         className={cn(
-          "absolute right-0 top-full mt-2 w-[250px] rounded-2xl border border-line bg-white p-2 shadow-lift transition-all",
+          "absolute right-0 top-full mt-2 w-[250px] rounded-2xl border border-line bg-white p-2 shadow-lift transition-[opacity,transform,visibility] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
         )}
       >
@@ -161,7 +161,7 @@ export function MobileAccountLinks({ account }: { account: Account }) {
   if (account.status === "visitor") {
     return (
       <div className="account-guest grid gap-3 pb-2 pt-5">
-        <p className="text-xs font-semibold uppercase tracking-wide text-ink-faint">Student portal</p>
+        <p className="text-sm font-medium text-ink-faint">Student portal</p>
         <div className="grid grid-cols-2 gap-3">
           <Link href="/signup" className="flex min-h-[52px] items-center justify-center rounded-full bg-navy px-3 text-center font-semibold text-white">Create Account</Link>
           <Link href="/login" className="flex min-h-[52px] items-center justify-center rounded-full border-2 border-navy/15 px-3 font-semibold text-navy">Log in</Link>
@@ -172,7 +172,7 @@ export function MobileAccountLinks({ account }: { account: Account }) {
 
   return (
     <div className="grid gap-3 pb-2 pt-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-ink-faint">
+      <p className="text-sm font-medium text-ink-faint">
         My account{account.firstName ? ` · ${account.firstName}` : ""}
       </p>
       <Link href="/portal" className="flex min-h-[52px] items-center justify-center rounded-full bg-navy font-semibold text-white">Go to Dashboard</Link>

@@ -55,7 +55,7 @@ test.describe("visitor navigation", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "Your Study Abroad Journey, All in One Place" })).toHaveCount(1);
     const section = page.locator("#student-portal");
-    for (const c of ["Academic Profile", "Secure Document Uploads", "Document Review", "Application Tracking"]) await expect(section.getByText(c, { exact: true })).toBeVisible();
+    for (const c of ["Academic profile", "Secure document uploads", "Document review", "Application tracking"]) await expect(section.getByText(c, { exact: true })).toBeVisible();
     await section.getByRole("link", { name: "Log in" }).click();
     await expect(page).toHaveURL(/\/login$/);
   });

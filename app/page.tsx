@@ -90,8 +90,8 @@ export default function HomePage() {
           <ProcessSteps />
         </Reveal>
         <div className="mt-12 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/study-abroad#eligibility">Check Your Eligibility</ButtonLink>
-          <ButtonLink href="/book-consultation" variant="outline">Talk to an Adviser</ButtonLink>
+          <ButtonLink href="/study-abroad#eligibility">Check your eligibility</ButtonLink>
+          <ButtonLink href="/book-consultation" variant="outline">Talk to an adviser</ButtonLink>
         </div>
       </Section>
 
@@ -101,7 +101,7 @@ export default function HomePage() {
       <Section tone="canvas" id="destinations">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading title="Where would you like to study?" intro="Explore our current destination guides. Requirements and available support vary by country and programme." />
-          <ButtonLink href="/destinations" variant="outline" className="shrink-0">Explore Study Destinations</ButtonLink>
+          <ButtonLink href="/destinations" variant="outline" className="shrink-0">Explore study destinations</ButtonLink>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-6">
           {destinations.map((d, i) => (
@@ -155,7 +155,7 @@ export default function HomePage() {
               ]}
             />
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/proof-of-funds">Discuss Your Financial Documentation</ButtonLink>
+              <ButtonLink href="/proof-of-funds">Discuss your financial documentation</ButtonLink>
             </div>
             <Notice tone="integrity" className="mt-6">{fundsIntegrityNotice}</Notice>
           </div>

@@ -12,7 +12,7 @@ export function CountryCard({ d, priority = false }: { d: Destination; priority?
           fill
           priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          className="object-cover"
         />
         <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-bold text-navy" style={{ boxShadow: `inset 0 -3px 0 ${d.accent}` }}>
           {d.code}

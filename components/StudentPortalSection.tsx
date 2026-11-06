@@ -5,10 +5,10 @@ import { ButtonLink } from "./Button";
 import { isPortalConfigured } from "@/lib/supabase/config";
 
 const capabilities = [
-  { title: "Academic Profile", text: "Keep your personal details and educational history in one place.", icon: GraduationCap },
-  { title: "Secure Document Uploads", text: "Upload certificates and transcripts to a private, access-controlled area.", icon: FolderLock },
-  { title: "Document Review", text: "See when our team has reviewed a document, or what needs correcting.", icon: ClipboardCheck },
-  { title: "Application Tracking", text: "Follow the preparation status of the programmes you are applying to.", icon: FileStack },
+  { title: "Academic profile", text: "Keep your personal details and educational history in one place.", icon: GraduationCap },
+  { title: "Secure document uploads", text: "Upload certificates and transcripts to a private, access-controlled area.", icon: FolderLock },
+  { title: "Document review", text: "See when our team has reviewed a document, or what needs correcting.", icon: ClipboardCheck },
+  { title: "Application tracking", text: "Follow the preparation status of the programmes you are applying to.", icon: FileStack },
 ];
 
 /**
@@ -22,11 +22,11 @@ export function StudentPortalSection() {
       <div className="grid gap-10 rounded-[2rem] bg-white p-6 ring-1 ring-line md:p-12 lg:grid-cols-[1fr_1.3fr] lg:items-center lg:gap-14">
         <div>
           <SectionHeading
-            title="Your Study Abroad Journey, All in One Place"
+            title="Your study abroad journey, all in one place"
             intro="Create your GlobalPath student account to manage your academic profile, upload documents securely, track internal document reviews, and follow your application preparation."
           />
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <ButtonLink href="/signup">Create Student Account</ButtonLink>
+            <ButtonLink href="/signup">Create student account</ButtonLink>
             <p className="text-ink-muted">
               Already registered?{" "}
               <Link href="/login" className="font-semibold text-navy underline decoration-brandorange decoration-2 underline-offset-[6px]">Log in</Link>

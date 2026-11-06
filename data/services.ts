@@ -14,56 +14,56 @@ export type ServiceSummary = {
 
 export const homeServices: ServiceSummary[] = [
   {
-    title: "University Admission Support",
+    title: "University admission support",
     icon: "graduation",
     summary:
       "From choosing suitable institutions to preparing and submitting your application, we guide you through each stage of the admission process.",
     href: "/study-abroad",
   },
   {
-    title: "Visa Application Support",
+    title: "Visa application support",
     icon: "stamp",
     summary:
       "Clear document checklists, application review and interview preparation based on the official requirements of your destination.",
     href: "/visa-support",
   },
   {
-    title: "Proof of Funds Guidance",
+    title: "Proof of funds guidance",
     icon: "wallet",
     summary:
       "Understand what financial evidence your destination asks for and how to present genuine, well-organised supporting documents.",
     href: "/proof-of-funds",
   },
   {
-    title: "Sponsorship Documentation",
+    title: "Sponsorship documentation",
     icon: "handshake",
     summary:
       "Guidance for parents, relatives and sponsors on the letters, records and evidence that usually accompany a sponsored application.",
     href: "/proof-of-funds#sponsorship",
   },
   {
-    title: "Document Translation",
+    title: "Document translation",
     icon: "languages",
     summary:
       "Ask about translation for diplomas, transcripts and supporting certificates. Confirm provider details and format before authorising work.",
     href: "/document-services",
   },
   {
-    title: "Notarization Assistance",
+    title: "Notarization assistance",
     icon: "filecheck",
     summary:
       "Ask whether notarization or certification coordination is available for your documents and destination.",
     href: "/document-services#notarization",
   },
   {
-    title: "Invitation Letter Guidance",
+    title: "Invitation letter guidance",
     icon: "mail",
     summary:
       "For destinations such as Russia, we explain how official study invitations are issued by universities and what you must provide.",
     href: "/destinations/russia",
   },
   {
-    title: "Flights & Accommodation",
+    title: "Flights & accommodation",
     icon: "luggage",
     summary:
       "Help booking your flight and, when needed, finding suitable accommodation, plus pre-departure checklists for your first weeks abroad.",

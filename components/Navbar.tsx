@@ -7,8 +7,6 @@ import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { mainNav } from "@/data/navigation";
 import { siteConfig } from "@/data/site";
-import { whatsappLink, whatsappMessageForPath } from "@/lib/whatsapp";
-import { WhatsAppGlyph } from "./SocialIcons";
 import { AccountLinks, MobileAccountLinks, useAccount } from "./AccountLinks";
 import { cn } from "@/lib/cn";
 
@@ -66,7 +64,6 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  const waHref = whatsappLink(whatsappMessageForPath(pathname));
   const servicePaths = ["/services", "/visa-support", "/proof-of-funds", "/document-services"];
 
   return (
@@ -103,7 +100,7 @@ export function Navbar() {
                 <div
                   id="services-menu"
                   className={cn(
-                    "absolute left-1/2 top-full mt-2 w-[320px] -translate-x-1/2 rounded-2xl border border-line bg-white p-2 shadow-lift transition-all",
+                    "absolute left-1/2 top-full mt-2 w-[320px] -translate-x-1/2 rounded-2xl border border-line bg-white p-2 shadow-lift transition-[opacity,transform,visibility] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     servicesOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
                   )}
                 >
@@ -141,15 +138,6 @@ export function Navbar() {
             <CalendarCheck className="hidden h-4 w-4 text-brandorange 2xl:block" aria-hidden="true" />
             Request a Consultation
           </Link>
-          <a
-            href={waHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat with us on WhatsApp"
-            className="hidden h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1FAF55] text-white transition-colors hover:bg-[#178a43] sm:grid"
-          >
-            <WhatsAppGlyph />
-          </a>
           <AccountLinks account={account} />
           <button
             ref={menuButtonRef}

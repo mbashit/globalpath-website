@@ -10,9 +10,8 @@ const checklist = ["Consultation", "Admission", "Visa documents", "Departure"];
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-navy text-white">
-      {/* soft light + flight arcs */}
+      {/* flight arc */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute -left-40 top-[-20%] h-[520px] w-[520px] rounded-full bg-[#3A41B0] blur-3xl opacity-60" />
         <svg className="absolute inset-0 h-full w-full opacity-30" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
           <path d="M-20 640 C 300 600, 520 420, 700 260 S 1000 60, 1240 40" fill="none" stroke="#FDBE18" strokeWidth="1.5" strokeDasharray="3 11" />
         </svg>
@@ -20,15 +19,15 @@ export function HomeHero() {
 
       <div className="container relative grid gap-12 pb-20 pt-12 md:pt-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-10 lg:pb-28 lg:pt-20">
         <div className="animate-rise">
-          <h1 className="font-display text-[2.45rem] font-extrabold leading-[1.08] sm:text-[3.25rem] lg:text-[4rem]">
-            Study abroad, with a clearer path.
+          <h1 className="font-display text-[2.45rem] font-semibold leading-[1.06] tracking-[-0.02em] sm:text-[3.25rem] lg:text-[4rem] lg:tracking-[-0.03em]">
+            Study abroad, with a clearer path
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80 md:text-xl">
             GlobalPath helps students and families understand university applications, document preparation and visa steps for study destinations across Europe and beyond.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="/book-consultation">Request a Consultation</ButtonLink>
-            <ButtonLink href="/services" variant="ghostLight">Explore Our Services</ButtonLink>
+            <ButtonLink href="/services" variant="ghostLight">Explore our services</ButtonLink>
           </div>
         </div>
 
@@ -48,7 +47,7 @@ export function HomeHero() {
             </div>
             <div className="flex items-end justify-between gap-3 px-5 pb-4 pt-3">
               <div>
-                <p className="font-display text-[2.3rem] font-extrabold leading-none text-navy">{route.from}</p>
+                <p className="font-display text-[2.3rem] font-semibold leading-none text-navy">{route.from}</p>
                 <p className="mt-1 text-sm text-ink-muted">{route.fromCity}</p>
               </div>
               <svg viewBox="0 0 80 24" className="mb-5 h-6 w-16 shrink-0 text-brandorange" aria-hidden="true">
@@ -56,7 +55,7 @@ export function HomeHero() {
                 <path d="M70 6l8 7-10 2z" fill="currentColor" />
               </svg>
               <div className="text-right">
-                <p className="font-display text-[2.3rem] font-extrabold leading-none text-navy">{route.to}</p>
+                <p className="font-display text-[2.3rem] font-semibold leading-none text-navy">{route.to}</p>
                 <p className="mt-1 text-sm text-ink-muted">{route.toCity}, {route.country}</p>
               </div>
             </div>
@@ -68,7 +67,7 @@ export function HomeHero() {
             <ol className="grid grid-cols-4 gap-1 px-4 py-4">
               {checklist.map((c, idx) => (
                 <li key={c} className="text-center">
-                  <span className={cn("mx-auto grid h-7 w-7 place-items-center rounded-full text-[0.7rem] font-bold", idx < 3 ? "bg-navy text-gold" : "border-2 border-dashed border-navy/30 text-navy")}>
+                  <span className={cn("mx-auto grid h-7 w-7 place-items-center rounded-full text-[0.7rem] font-semibold tabular-nums", idx < 3 ? "bg-navy text-gold" : "border-2 border-dashed border-navy/30 text-navy")}>
                     {idx + 1}
                   </span>
                   <span className="mt-1.5 block text-[0.7rem] leading-tight text-ink-muted">{c}</span>
