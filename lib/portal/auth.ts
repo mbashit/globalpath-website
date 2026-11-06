@@ -6,7 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { isPortalConfigured } from "@/lib/supabase/config";
 import type { Profile } from "./types";
 
-export type StaffRole = "reviewer" | "admin";
+/** "developer" is a hidden super-administrator: every admin power, plus managing administrators. */
+export type StaffRole = "reviewer" | "admin" | "developer";
 
 /** The signed-in user (verified with Supabase Auth), deduplicated per request. */
 export const getSession = cache(async () => {
@@ -51,11 +52,18 @@ export const getStaffContext = cache(async () => {
   } as const;
 });
 
+/**
+ * `role` is "admin" for developers too, so every administrator screen works
+ * for them unchanged; `developer` marks the extra, hidden powers.
+ */
 export async function requireStaff(next: string, minimum: StaffRole = "reviewer") {
   const session = await requireUser(next);
   const staff = await getStaffContext();
   if (!staff.assignedRole) redirect("/portal");
   if (!staff.activeRole) redirect(`/login/mfa?next=${encodeURIComponent(next)}`);
-  if (minimum === "admin" && staff.activeRole !== "admin") redirect("/admin");
-  return { ...session, role: staff.activeRole };
+  const developer = staff.activeRole === "developer";
+  const role: "reviewer" | "admin" = developer || staff.activeRole === "admin" ? "admin" : "reviewer";
+  if (minimum === "admin" && role !== "admin") redirect("/admin");
+  if (minimum === "developer" && !developer) redirect("/admin");
+  return { ...session, role, developer };
 }

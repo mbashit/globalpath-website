@@ -3,11 +3,13 @@ import { SmartImage } from "./SmartImage";
 import { images } from "@/data/images";
 import { cn } from "@/lib/cn";
 
+type Photo = { src: string; alt: string };
+
 const route = { from: "LOS", fromCity: "Lagos", to: "BER", toCity: "Berlin", country: "Germany" };
 
 const checklist = ["Consultation", "Admission", "Visa documents", "Departure"];
 
-export function HomeHero() {
+export function HomeHero({ image = images.hero }: { image?: Photo }) {
   return (
     <section className="relative overflow-hidden bg-navy text-white">
       {/* flight arc */}
@@ -34,7 +36,7 @@ export function HomeHero() {
         {/* Photo + boarding pass */}
         <div className="relative mx-auto w-full max-w-[520px] lg:mr-0">
           <div className="relative ml-auto aspect-[4/3] w-[82%] overflow-hidden rounded-[2rem] bg-navy-deep ring-1 ring-white/15 sm:aspect-[4/5] sm:w-[78%]">
-            <SmartImage src={images.hero.src} alt={images.hero.alt} fill priority sizes="(max-width: 1024px) 80vw, 420px" className="object-cover" />
+            <SmartImage src={image.src} alt={image.alt} fill priority sizes="(max-width: 1024px) 80vw, 420px" className="object-cover" />
           </div>
 
           <div

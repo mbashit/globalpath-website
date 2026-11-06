@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { CTASection } from "@/components/CTASection";
 import { SmartImage } from "@/components/SmartImage";
 import { financialReviewFields } from "@/data/forms";
-import { images } from "@/data/images";
+import { getSiteImages } from "@/lib/site-content";
 import { decisionDisclaimer, fundsIntegrityNotice, requirementsChangeNotice } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -106,7 +106,8 @@ const sections = [
   },
 ];
 
-export default function ProofOfFundsPage() {
+export default async function ProofOfFundsPage() {
+  const images = await getSiteImages();
   return (
     <>
       <PageHero

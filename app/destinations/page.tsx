@@ -5,7 +5,7 @@ import { CountryCard } from "@/components/CountryCard";
 import { Notice } from "@/components/Notice";
 import { CTASection } from "@/components/CTASection";
 import { ButtonLink } from "@/components/Button";
-import { destinations } from "@/data/destinations";
+import { getDestinations } from "@/lib/site-content";
 import { requirementsChangeNotice } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -17,7 +17,8 @@ export const metadata = buildMetadata({
   keywords: ["study in Germany from Nigeria", "study in Russia from Nigeria", "Canada study visa support", "UK student visa Nigeria"],
 });
 
-export default function DestinationsPage() {
+export default async function DestinationsPage() {
+  const destinations = await getDestinations();
   return (
     <>
       <PageHero

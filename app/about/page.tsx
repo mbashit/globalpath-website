@@ -3,7 +3,7 @@ import { Section, SectionHeading } from "@/components/Section";
 import { CTASection } from "@/components/CTASection";
 import { SmartImage } from "@/components/SmartImage";
 import { Icon, type IconName } from "@/components/Icon";
-import { images } from "@/data/images";
+import { getSiteImages } from "@/lib/site-content";
 import { siteConfig } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -22,7 +22,8 @@ const values: { title: string; text: string; icon: IconName }[] = [
   { title: "International perspective", text: "Understanding how requirements differ between countries.", icon: "globe" },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const images = await getSiteImages();
   return (
     <>
       <PageHero

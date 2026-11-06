@@ -8,7 +8,7 @@ import { CTASection } from "@/components/CTASection";
 import { Icon, type IconName } from "@/components/Icon";
 import { SmartImage } from "@/components/SmartImage";
 import { documentFields } from "@/data/forms";
-import { images } from "@/data/images";
+import { getSiteImages } from "@/lib/site-content";
 import { buildMetadata } from "@/lib/seo";
 import { whatsappMessageForPath } from "@/lib/whatsapp";
 
@@ -27,7 +27,8 @@ const groups: { id: string; title: string; icon: IconName; items: string[] }[] =
   { id: "notarization", title: "Certification & notarization coordination", icon: "filecheck", items: ["Notarization of translations", "Guidance on apostille and legalisation", "Checking which format your institution accepts"] },
 ];
 
-export default function DocumentServicesPage() {
+export default async function DocumentServicesPage() {
+  const images = await getSiteImages();
   return (
     <>
       <PageHero

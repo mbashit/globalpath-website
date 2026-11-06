@@ -15,10 +15,8 @@ import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
 import { StudentPortalSection } from "@/components/StudentPortalSection";
 import { homeServices } from "@/data/services";
-import { destinations } from "@/data/destinations";
-import { publishedTestimonials, testimonials } from "@/data/testimonials";
 import { homeFaqPreview } from "@/data/faqs";
-import { images } from "@/data/images";
+import { getDestinations, getSiteImages, getTestimonials } from "@/lib/site-content";
 import { fundsIntegrityNotice, siteConfig } from "@/data/site";
 import { buildMetadata, baseKeywords } from "@/lib/seo";
 
@@ -47,10 +45,11 @@ const whyUs: { title: string; text: string; icon: IconName }[] = [
   { title: "Support from application to arrival", text: "Pre-departure and arrival guidance, not just paperwork.", icon: "plane" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [images, destinations, testimonials] = await Promise.all([getSiteImages(), getDestinations(), getTestimonials()]);
   return (
     <>
-      <HomeHero />
+      <HomeHero image={images.hero} />
 
       {/* Trust points */}
       <section className="bg-white py-14 md:py-16" aria-label="How we support you">
@@ -176,7 +175,7 @@ export default function HomePage() {
       <section id="stories" className="scroll-mt-24 overflow-hidden bg-canvas py-16 md:py-24">
         <div className="container flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading title="Student and family stories" intro="Students and parents from across Africa share their journeys to Germany, Canada, the UK and the USA." />
-          {publishedTestimonials.length > 0 && (
+          {testimonials.length > 0 && (
             <ButtonLink href="/success-stories" variant="outline" className="shrink-0">View all stories</ButtonLink>
           )}
         </div>

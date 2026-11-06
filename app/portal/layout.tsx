@@ -30,6 +30,7 @@ export default async function PortalLayout({ children }: { children: React.React
     { label: "Document Verification", href: "/portal/verification", icon: "verification" },
     { label: "Messages & Notifications", href: "/portal/notifications", icon: "notifications", badge: unread ?? 0 },
     { label: "Consultations", href: "/portal/consultations", icon: "consultations" },
+    { label: "Share your story", href: "/portal/share-story", icon: "testimonials" },
     { label: "Account Settings", href: "/portal/settings", icon: "settings" },
   ];
 

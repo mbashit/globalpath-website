@@ -302,6 +302,70 @@ await as(M, "aal2", async () => {
   ok("admin sees all students", (await rows(`select id from public.profiles`)).length === 4);
 });
 
+// --- developer role (hidden super-admin) --------------------------------
+const D = "00000000-0000-0000-0000-0000000000de";
+await db.query(`insert into auth.users (id, email, raw_user_meta_data) values ($1, 'dev@x.test', $2)`, [D, { first_name: "Dev", last_name: "Test", accepted_terms: "true" }]);
+await db.exec(`insert into public.staff_roles (user_id, role) values ('${D}', 'developer');`);
+await as(D, "aal2", async () => {
+  ok("developer has admin powers", (await rows(`select public.is_admin() a`))[0].a === true);
+  ok("developer sees every account", (await rows(`select id from public.profiles`)).length === 5);
+  await db.query(`select public.admin_set_staff_role('b@x.test', 'admin')`);
+  ok("developer can grant administrator", (await rows(`select role::text r from public.staff_roles where user_id = $1`, [B]))[0]?.r === "admin");
+  await db.query(`select public.admin_set_staff_role('b@x.test', null)`);
+  ok("developer can remove administrator", (await rows(`select 1 from public.staff_roles where user_id = $1`, [B])).length === 0);
+  ok("developer sees own actions in audit log", (await rows(`select 1 from public.audit_logs where actor_id = $1`, [D])).length === 2);
+});
+await as(M, "aal2", async () => {
+  ok("admin cannot see developer in staff list", (await rows(`select user_id from public.staff_roles where user_id = $1`, [D])).length === 0);
+  ok("admin cannot see developer profile", (await rows(`select id from public.profiles where id = $1`, [D])).length === 0);
+  ok("admin still sees the other accounts", (await rows(`select id from public.profiles`)).length === 4);
+  ok("admin cannot see developer actions in audit log", (await rows(`select 1 from public.audit_logs where actor_id = $1`, [D])).length === 0);
+  const e1 = await fails(`select public.admin_set_staff_role('dev@x.test', null)`);
+  ok("admin cannot find developer by email", e1 && /No account uses that email/.test(e1), e1);
+  const e2 = await fails(`select public.admin_set_staff_role('b@x.test', 'admin')`);
+  ok("admin cannot grant administrator", e2 && /technical support/.test(e2), e2);
+  const e3 = await fails(`select public.admin_assign_reviewer($1, $2, true)`, [D, A]);
+  ok("admin cannot assign developer as reviewer", e3 && /not a staff member/.test(e3), e3);
+  await db.query(`select public.admin_set_staff_role('b@x.test', 'reviewer')`);
+  ok("admin can still manage reviewers", (await rows(`select role::text r from public.staff_roles where user_id = $1`, [B]))[0]?.r === "reviewer");
+  await db.query(`select public.admin_set_staff_role('b@x.test', null)`);
+});
+await as(R, "aal2", async () => {
+  ok("reviewer cannot see developer in staff list", (await rows(`select user_id from public.staff_roles where user_id = $1`, [D])).length === 0);
+});
+
+// --- website content ---------------------------------------------------
+await as("anon", null, async () => {
+  ok("public sees published sample stories", (await rows(`select id, quote from public.site_testimonials`)).length === 4);
+  const e = await fails(`select submitted_by from public.site_testimonials`);
+  ok("public cannot read who submitted a story", e && /permission denied/.test(e), e);
+  const e2 = await fails(`insert into public.site_images (key, src, alt) values ('hero', '/images/x.jpg', 'Hack')`);
+  ok("public cannot change site photos", !!e2, e2);
+});
+await as(A, "aal1", async () => {
+  const [{ submit_testimonial: storyId }] = await rows(`select public.submit_testimonial('GlobalPath explained every step of my German application clearly.', 'Adaeze T.', 'Student · Lagos', 'Germany')`);
+  ok("student can submit a story", !!storyId);
+  ok("student sees own pending story", (await rows(`select id from public.site_testimonials where status = 'pending'`)).length === 1);
+  ok("student cannot publish own story", (await rows(`update public.site_testimonials set status = 'published' where id = $1 returning id`, [storyId])).length === 0);
+  const e2 = await fails(`insert into public.site_images (key, src, alt) values ('hero', '/images/x.jpg', 'Hack')`);
+  ok("student cannot change site photos", !!e2, e2);
+});
+await as("anon", null, async () => {
+  ok("pending story is not public", (await rows(`select id from public.site_testimonials`)).length === 4);
+});
+await as(M, "aal2", async () => {
+  const pending = await rows(`select id from public.site_testimonials where status = 'pending'`);
+  ok("admin sees pending story", pending.length === 1);
+  ok("admin can publish a story", (await rows(`update public.site_testimonials set status = 'published' where id = $1 returning id`, [pending[0].id])).length === 1);
+  ok("admin can replace a site photo", (await rows(`insert into public.site_images (key, src, alt) values ('hero', 'https://x.supabase.co/storage/v1/object/public/site-media/hero.jpg', 'Students') returning key`)).length === 1);
+  const e = await fails(`insert into public.site_images (key, src, alt) values ('about', 'javascript:alert(1)', 'Bad')`);
+  ok("site photo must be a site path or https URL", e && /check constraint/.test(e), e);
+});
+await as(R, "aal2", async () => {
+  const e = await fails(`insert into public.site_images (key, src, alt) values ('about', '/images/x.jpg', 'Reviewer')`);
+  ok("reviewer cannot change site photos", !!e, e);
+});
+
 // --- MFA switch -------------------------------------------------------
 await db.exec(`update public.portal_config set require_staff_mfa = false`);
 await as(R, "aal1", async () => {

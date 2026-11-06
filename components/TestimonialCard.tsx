@@ -2,6 +2,12 @@ import type { Testimonial } from "@/data/testimonials";
 import Image from "next/image";
 import { MapPin, Quote } from "lucide-react";
 
+/** "Mrs. Amina B." -> "AB": first letters of the words, skipping titles. */
+function initials(name: string) {
+  const words = name.replace(/\b(Mr|Mrs|Ms|Miss|Dr)\.?\s+/gi, "").split(/\s+/).filter(Boolean);
+  return words.slice(0, 2).map((w) => w[0]?.toUpperCase() ?? "").join("");
+}
+
 export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <figure className="flex h-full flex-col rounded-2xl bg-white p-7 shadow-card ring-1 ring-line">
@@ -18,8 +24,12 @@ export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
       </div>
       <blockquote className="mt-5 flex-1 leading-relaxed text-ink">“{testimonial.quote}”</blockquote>
       <figcaption className="mt-6 flex items-center gap-4 border-t border-line pt-5">
-        <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-gold ring-offset-2">
-          <Image src={testimonial.image} alt={testimonial.imageAlt} fill sizes="56px" className="object-cover" />
+        <span className="relative grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-navy-soft font-display text-lg font-semibold text-navy ring-2 ring-gold ring-offset-2">
+          {testimonial.image ? (
+            <Image src={testimonial.image} alt={testimonial.imageAlt} fill sizes="56px" className="object-cover" />
+          ) : (
+            <span aria-hidden="true">{initials(testimonial.name)}</span>
+          )}
         </span>
         <span>
           <span className="block font-display font-semibold text-ink">{testimonial.name}</span>

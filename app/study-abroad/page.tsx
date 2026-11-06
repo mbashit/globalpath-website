@@ -7,7 +7,7 @@ import { CTASection } from "@/components/CTASection";
 import { SmartImage } from "@/components/SmartImage";
 import { eligibilityFields } from "@/data/forms";
 import { applicationFee, decisionDisclaimer } from "@/data/site";
-import { images } from "@/data/images";
+import { getSiteImages } from "@/lib/site-content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -30,7 +30,8 @@ const stages = [
   { id: "departure", title: "Pre-departure preparation", text: "Accommodation, travel, insurance, what to pack and what to do in your first week. You leave knowing what to expect." },
 ];
 
-export default function StudyAbroadPage() {
+export default async function StudyAbroadPage() {
+  const images = await getSiteImages();
   return (
     <>
       <PageHero

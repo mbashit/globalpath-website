@@ -2,7 +2,7 @@ import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { CTASection } from "@/components/CTASection";
 import { TestimonialCard } from "@/components/TestimonialCard";
-import { publishedTestimonials } from "@/data/testimonials";
+import { getTestimonials } from "@/lib/site-content";
 import { buildMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 
@@ -13,7 +13,8 @@ export const metadata = buildMetadata({
   robots: { index: false, follow: true },
 });
 
-export default function SuccessStoriesPage() {
+export default async function SuccessStoriesPage() {
+  const publishedTestimonials = await getTestimonials();
   if (publishedTestimonials.length === 0) notFound();
 
   return (

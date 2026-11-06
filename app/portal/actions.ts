@@ -454,3 +454,23 @@ export async function requestDeletionAction(_prev: ActionState, form: FormData):
   revalidatePath("/portal/settings");
   return saved("Deletion requested. GlobalPath will confirm by email once your account and documents are deleted.");
 }
+
+// ------------------------------------------------------------ share a story
+export async function submitStoryAction(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const { supabase } = await requireUser("/portal/share-story");
+  if (await rateLimited("story", 5, 60 * 60_000)) return { error: "Too many submissions. Please try again later." };
+  const quote = str(form, "quote", 800);
+  const name = str(form, "name", 80);
+  if (quote.length < 20) return { error: "Tell us a little more: at least 20 characters." };
+  if (name.length < 2) return { error: "Enter the name to show, for example \"Chinedu O.\"." };
+  if (form.get("consent") !== "on") return { error: "Tick the box to let GlobalPath publish your story." };
+  const { error } = await supabase.rpc("submit_testimonial", {
+    p_quote: quote,
+    p_name: name,
+    p_context: str(form, "context", 120),
+    p_destination: str(form, "destination", 60),
+  });
+  if (error) return { error: friendlyDbError(error) };
+  revalidatePath("/portal/share-story");
+  return saved("Thank you. GlobalPath will read your story before it appears on the website.");
+}

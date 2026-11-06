@@ -1,15 +1,26 @@
 /** @type {import('next').NextConfig} */
 const devScriptPolicy = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
 
+// Photos administrators upload in /admin live in Supabase's public site-media bucket.
+let supabaseHost = "";
+try {
+  supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname : "";
+} catch {}
+
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // Website photos (max 5 MB) are uploaded through admin server actions.
+    serverActions: { bodySizeLimit: "6mb" },
+  },
   turbopack: {
     root: process.cwd(),
   },
   images: {
     formats: ["image/avif", "image/webp"],
-    // If you host photos on an external CDN, add its hostname here, e.g.:
-    // remotePatterns: [{ protocol: "https", hostname: "images.example-cdn.com" }],
+    remotePatterns: supabaseHost
+      ? [{ protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/site-media/**" }]
+      : [],
   },
   async headers() {
     return [

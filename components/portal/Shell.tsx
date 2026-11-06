@@ -12,7 +12,9 @@ import {
   FileStack,
   FolderOpen,
   GraduationCap,
+  ImageIcon,
   LayoutDashboard,
+  MessageSquareQuote,
   ListChecks,
   LogOut,
   Menu,
@@ -43,6 +45,8 @@ const icons = {
   staff: ShieldCheck,
   requirements: ListChecks,
   guide: BookOpen,
+  photos: ImageIcon,
+  testimonials: MessageSquareQuote,
 };
 export type ShellIcon = keyof typeof icons;
 export type ShellNavItem = { label: string; href: string; icon: ShellIcon; badge?: number };

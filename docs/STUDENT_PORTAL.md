@@ -39,10 +39,13 @@ Staff (MFA required)        ──►  /admin  students → document review → 
 
 * **Student** – own profile, qualifications, documents, applications, messages.
 * **Reviewer** – sees only students an administrator assigned to them; reviews documents, sets application review statuses, messages students.
-* **Administrator** – sees all students; manages staff roles, reviewer assignments, the university/course catalogue, document requirement checklists, consultations, account deletion; reads the audit log.
+* **Administrator** (the client) – sees all students; reviews documents and applications; edits website photos (`/admin/photos`) and testimonials (`/admin/testimonials`, including approving stories students send from `/portal/share-story`); manages reviewers and their assignments, the university/course catalogue, document requirement checklists, consultations, account deletion; reads the audit log.
+* **Developer** – a hidden super-administrator: everything an administrator can do, plus granting and removing administrator and developer access. Developer accounts never appear to administrators or reviewers (staff lists, student lists, profiles, audit log) and look like unknown emails in the role form.
 
 Roles live in `staff_roles`, which clients cannot write. Roles change only through
-`admin_set_staff_role()` (admin + MFA, cannot change own role).
+`admin_set_staff_role()` (MFA required, cannot change own role; administrators may only grant or remove the reviewer role).
+
+Website content lives in `site_images` (photo overrides; deleting a row restores the built-in photo) and `site_testimonials`, with uploaded files in the public `site-media` bucket. Public pages read it through `lib/site-content.ts`, which falls back to `data/*.ts` whenever Supabase is unavailable.
 
 ### Document lifecycle
 

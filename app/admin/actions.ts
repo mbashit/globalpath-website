@@ -179,7 +179,8 @@ export async function setStaffRoleAction(_prev: ActionState, form: FormData): Pr
   const email = str(form, "email", 254);
   const role = str(form, "role", 20);
   if (!email) return { error: "Enter the person's account email." };
-  const { error } = await supabase.rpc("admin_set_staff_role", { p_email: email, p_role: role === "reviewer" || role === "admin" ? role : null });
+  // The database decides who may grant which role (administrators: reviewers only).
+  const { error } = await supabase.rpc("admin_set_staff_role", { p_email: email, p_role: ["reviewer", "admin", "developer"].includes(role) ? role : null });
   if (error) return { error: friendlyDbError(error) };
   revalidatePath("/admin/staff");
   return done(role ? "Role saved. The person must set up two-step verification before staff tools unlock." : "Staff access removed.");

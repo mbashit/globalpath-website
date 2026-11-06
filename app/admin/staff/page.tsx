@@ -8,7 +8,8 @@ import { formatDate } from "@/lib/portal/constants";
 export const metadata = { title: "Staff & assignments" };
 
 export default async function StaffPage() {
-  const { supabase } = await requireStaff("/admin/staff", "admin");
+  const { supabase, developer } = await requireStaff("/admin/staff", "admin");
+  const roleLabel = (r: string) => (r === "developer" ? "Developer" : r === "admin" ? "Administrator" : "Reviewer");
   const [{ data: staff }, { data: assignments }] = await Promise.all([
     supabase.from("staff_roles").select("user_id, role, granted_at, profiles!staff_roles_user_id_fkey(first_name, last_name, email)").order("granted_at"),
     supabase
@@ -23,18 +24,30 @@ export default async function StaffPage() {
 
   return (
     <div className="grid gap-6">
-      <PageHeader title="Staff & assignments" intro="Staff must first register a normal account, then you grant a role here. Staff tools unlock only after they set up two-step verification." />
-      <Card title="Grant, change or remove a role">
+      <PageHeader
+        title="Staff & assignments"
+        intro={
+          developer
+            ? "Staff must first register a normal account, then you grant a role here. Developer accounts are invisible to administrators and reviewers."
+            : "Staff must first register a normal account, then you grant the reviewer role here. Staff tools unlock only after they set up two-step verification."
+        }
+      />
+      <Card title={developer ? "Grant, change or remove a role" : "Add or remove a reviewer"}>
         <ActionForm action={setStaffRoleAction} className="grid gap-4 sm:grid-cols-[2fr_1fr_auto] sm:items-end" resetOnSuccess>
           <Field label="Account email" name="email" type="email" required />
           <SelectField
             label="Role"
             name="role"
             placeholder="Remove staff access"
-            options={[
-              { value: "reviewer", label: "Reviewer" },
-              { value: "admin", label: "Administrator" },
-            ]}
+            options={
+              developer
+                ? [
+                    { value: "reviewer", label: "Reviewer" },
+                    { value: "admin", label: "Administrator" },
+                    { value: "developer", label: "Developer (hidden)" },
+                  ]
+                : [{ value: "reviewer", label: "Reviewer" }]
+            }
           />
           <SubmitButton variant="navy">Save</SubmitButton>
         </ActionForm>
@@ -59,10 +72,10 @@ export default async function StaffPage() {
                       {`${s.profiles?.first_name ?? ""} ${s.profiles?.last_name ?? ""}`.trim() || "—"}
                       <span className="block break-all text-xs text-ink-faint">{s.profiles?.email}</span>
                     </td>
-                    <td className={tdClass}>{s.role === "admin" ? "Administrator" : "Reviewer"}</td>
+                    <td className={tdClass}>{roleLabel(s.role)}</td>
                     <td className={tdClass}>{formatDate(s.granted_at)}</td>
                     <td className={tdClass}>
-                      {s.role === "admin" ? (
+                      {s.role === "admin" || s.role === "developer" ? (
                         <span className="text-ink-faint">All students</span>
                       ) : mine.length === 0 ? (
                         <span className="text-ink-faint">None</span>

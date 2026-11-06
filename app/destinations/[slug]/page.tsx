@@ -8,13 +8,14 @@ import { CTASection } from "@/components/CTASection";
 import { ButtonLink } from "@/components/Button";
 import { SmartImage } from "@/components/SmartImage";
 import { WhatsAppGlyph } from "@/components/SocialIcons";
-import { destinations, getDestination } from "@/data/destinations";
+import { destinations as builtInDestinations, getDestination } from "@/data/destinations";
+import { getDestinations } from "@/lib/site-content";
 import { decisionDisclaimer, requirementsChangeNotice } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
 import { whatsappLink } from "@/lib/whatsapp";
 
 export function generateStaticParams() {
-  return destinations.map((d) => ({ slug: d.slug }));
+  return builtInDestinations.map((d) => ({ slug: d.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -31,7 +32,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function DestinationPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const d = getDestination(slug);
+  const destinations = await getDestinations();
+  const d = destinations.find((x) => x.slug === slug);
   if (!d) notFound();
 
   const toc = [

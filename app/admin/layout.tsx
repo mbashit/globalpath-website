@@ -13,10 +13,13 @@ export const metadata: Metadata = {
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await connection();
   if (!isPortalConfigured) return <NotConfigured />;
-  const { supabase, role } = await requireStaff("/admin");
-  const [profile, { count: queue }] = await Promise.all([
+  const { supabase, role, developer } = await requireStaff("/admin");
+  const [profile, { count: queue }, { count: pendingStories }] = await Promise.all([
     getProfile(),
     supabase.from("documents").select("id", { count: "exact", head: true }).eq("status", "pending_review").eq("review_unlocked", true),
+    role === "admin"
+      ? supabase.from("site_testimonials").select("id", { count: "exact", head: true }).eq("status", "pending")
+      : Promise.resolve({ count: 0 }),
   ]);
 
   const nav: ShellNavItem[] = [
@@ -29,6 +32,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ];
   if (role === "admin") {
     nav.push(
+      { label: "Website photos", href: "/admin/photos", icon: "photos" },
+      { label: "Testimonials", href: "/admin/testimonials", icon: "testimonials", badge: pendingStories ?? 0 },
       { label: "Universities & courses", href: "/admin/universities", icon: "universities" },
       { label: "Document requirements", href: "/admin/requirements", icon: "requirements" },
       { label: "Staff & assignments", href: "/admin/staff", icon: "staff" },
@@ -39,7 +44,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <Shell
       nav={nav}
-      area={role === "admin" ? "Administrator" : "Reviewer"}
+      area={developer ? "Developer" : role === "admin" ? "Administrator" : "Reviewer"}
       userName={[profile?.first_name, profile?.last_name].filter(Boolean).join(" ") || profile?.email || "Staff"}
       subtitle={profile?.email ?? ""}
       switchLink={{ label: "Student view", href: "/portal" }}
