@@ -32,7 +32,7 @@ export function PageHeader({ title, intro, actions }: { title: string; intro?: R
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="font-display text-2xl font-bold text-ink md:text-3xl">{title}</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-[-0.01em] text-ink md:text-3xl">{title}</h1>
         {intro && <p className="mt-1.5 max-w-2xl text-ink-muted">{intro}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
@@ -61,13 +61,13 @@ export function Stat({ label, value, hint, href }: { label: string; value: React
   const body = (
     <>
       <span className="block text-sm font-medium text-ink-muted">{label}</span>
-      <span className="mt-1 block font-display text-3xl font-bold text-navy">{value}</span>
+      <span className="mt-2 block font-display text-3xl font-semibold tabular-nums text-ink">{value}</span>
       {hint && <span className="mt-1 block text-xs text-ink-faint">{hint}</span>}
     </>
   );
   const cls = "block rounded-2xl bg-white p-5 shadow-card ring-1 ring-line";
   return href ? (
-    <Link href={href} className={cn(cls, "transition-shadow hover:shadow-lift")}>
+    <Link href={href} className={cn(cls, "transition-colors hover:ring-navy/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/30")}>
       {body}
     </Link>
   ) : (
@@ -103,7 +103,7 @@ export function ProgressBar({ value, label }: { value: number; label: string }) 
     <div>
       <div className="flex items-center justify-between text-sm">
         <span className="font-medium text-ink">{label}</span>
-        <span className="font-semibold text-navy">{value}%</span>
+        <span className="font-semibold tabular-nums text-navy">{value}%</span>
       </div>
       <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-navy-soft" role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} aria-label={label}>
         <div className="h-full rounded-full bg-brandorange transition-[width]" style={{ width: `${value}%` }} />
@@ -197,5 +197,5 @@ export function TextAreaField({ label, name, optional, hint, className, ...props
 export function TableWrap({ children }: { children: ReactNode }) {
   return <div className="-mx-5 overflow-x-auto px-5 md:mx-0 md:px-0">{children}</div>;
 }
-export const thClass = "border-b border-line px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-ink-faint";
+export const thClass = "border-b border-line px-3 py-2.5 text-left text-sm font-medium text-ink-faint";
 export const tdClass = "border-b border-line px-3 py-3 align-top text-sm text-ink";

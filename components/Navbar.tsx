@@ -105,8 +105,8 @@ export function Navbar() {
                   )}
                 >
                   {item.children.map((c) => (
-                    <Link key={c.href} href={c.href} className="block rounded-xl px-4 py-3 hover:bg-canvas">
-                      <span className="block font-semibold text-ink">{c.label}</span>
+                    <Link key={c.href} href={c.href} className="block rounded-xl px-4 py-3 transition-colors hover:bg-canvas">
+                      <span className="block font-medium text-ink">{c.label}</span>
                       {c.note && <span className="block text-sm text-ink-muted">{c.note}</span>}
                     </Link>
                   ))}

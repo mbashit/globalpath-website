@@ -135,7 +135,7 @@ export function AccountLinks({ account }: { account: Account }) {
         <ul>
           {accountMenu.map((item) => (
             <li key={item.href}>
-              <Link href={item.href} className="block rounded-xl px-4 py-2.5 font-semibold text-ink hover:bg-canvas">{item.label}</Link>
+              <Link href={item.href} className="block rounded-xl px-4 py-2.5 font-medium text-ink transition-colors hover:bg-canvas">{item.label}</Link>
             </li>
           ))}
           {account.staff && (

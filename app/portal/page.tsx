@@ -60,21 +60,30 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         </Alert>
       )}
       <PageHeader
-        title="Welcome to your GlobalPath portal"
+        title="Dashboard"
         intro={
           <>
-            Hello {profile.first_name || "there"}. Applicant ID <strong className="font-semibold text-navy">{profile.applicant_ref}</strong>
+            {profile.first_name ? `${profile.first_name} · ` : ""}Applicant ID <span className="font-medium tabular-nums text-ink">{profile.applicant_ref}</span>
           </>
         }
       />
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <Card title="Recommended next step">
-          <p className="text-ink">{nextAction.text}</p>
-          <Link href={nextAction.href} className={`${buttonClass.primary} mt-4`}>
-            {nextAction.cta} <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Card>
+        <section className="relative overflow-hidden rounded-2xl bg-navy p-5 text-white md:p-6">
+          {/* The site's dotted route line, ending at the destination pin */}
+          <svg className="pointer-events-none absolute bottom-0 right-6 hidden h-full w-1/2 sm:block" viewBox="0 0 300 200" fill="none" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+            <path d="M0 190 C 90 180, 150 200, 200 140 S 250 50, 262 40" stroke="#FDBE18" strokeOpacity=".6" strokeWidth="1.5" strokeDasharray="3 11" strokeLinecap="round" />
+            <circle cx="262" cy="40" r="4" fill="#FDBE18" />
+            <circle cx="262" cy="40" r="11" stroke="#FDBE18" strokeOpacity=".5" />
+          </svg>
+          <div className="relative max-w-md">
+            <h2 className="font-display text-lg font-semibold">Recommended next step</h2>
+            <p className="mt-2 text-white/80">{nextAction.text}</p>
+            <Link href={nextAction.href} className={`${buttonClass.primary} mt-5`}>
+              {nextAction.cta} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
         <Card title="Profile completion">
           <ProgressBar value={completion.percent} label={`${completion.checks.filter((c) => c.done).length} of ${completion.checks.length} items complete`} />
           {firstMissing && (
@@ -100,7 +109,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card title="Important notifications" actions={<Link href="/portal/notifications" className={`${buttonClass.link} text-sm`}>View all</Link>}>
+        <Card title="Unread notifications" actions={<Link href="/portal/notifications" className={`${buttonClass.link} text-sm`}>View all</Link>}>
           {unread.length === 0 ? (
             <p className="text-sm text-ink-muted">No unread notifications.</p>
           ) : (
@@ -125,7 +134,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <ul className="space-y-3">
               {(consultations.data ?? []).map((c) => (
                 <li key={c.id} className="flex items-start gap-3">
-                  <CalendarCheck className="mt-0.5 h-5 w-5 text-brandorange" aria-hidden="true" />
+                  <CalendarCheck className="mt-0.5 h-[18px] w-[18px] text-ink-faint" aria-hidden="true" />
                   <span>
                     <span className="block font-semibold text-ink">{c.service}</span>
                     <span className="text-sm text-ink-muted">{formatDate(c.confirmed_for, true)}</span>
